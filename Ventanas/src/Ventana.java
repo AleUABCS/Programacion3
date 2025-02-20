@@ -13,14 +13,16 @@ import javax.swing.JInternalFrame.JDesktopIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 public class Ventana extends JFrame {
 	
-	/*
 	public Ventana () {
+		/*
 		setTitle("Iniciar Sesión");
 		setLayout(null);
 		setVisible(true);
@@ -97,10 +99,7 @@ public class Ventana extends JFrame {
 		olvide.repaint();
 		
 	}
-	*/
-	
-	public Ventana () {
-		
+	/*
 		setTitle("Registrarse");
 		setLayout(null);
 		setVisible(true);
@@ -229,8 +228,74 @@ public class Ventana extends JFrame {
 		ComboBoxColonias.setBackground(Color.WHITE);
 		panel.add(ComboBoxColonias);
 		ComboBoxColonias.repaint();
+		*/
+		
+		setTitle("Tabla");
+		setLayout(null);
+		setSize(900,600);
+		setVisible(true);
+		setLocationRelativeTo(null);
+		getContentPane().setBackground(Color.ORANGE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		JPanel panel = new JPanel();
+		panel.setSize(getSize());
+		panel.setBackground(null);
+		panel.setLayout(null);
+		add(panel);
 		
 		
+		JLabel textoUsuarios = new JLabel("USUARIOS");
+		textoUsuarios.setFont(new Font("Calibri", Font.PLAIN, 64));
+		textoUsuarios.setBounds(320, 30, 300, 80);
+		panel.add(textoUsuarios);
+		
+		JLabel totalUsuarios = new JLabel("Total usuarios: 100");
+		totalUsuarios.setFont(new Font("Calibri", Font.PLAIN, 28));
+		totalUsuarios.setBounds(340, 100, 300, 80);
+		panel.add(totalUsuarios);
+		
+		//Crear tabla
+		String [] barraSup = {"Nombre", "Apellido", "Game", "Edad", "Vegetariano"};
+		
+		Object [][] datos = {
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+				{"Angel", "Daniel", "Hollow Knight", 20, "No"},
+
+				
+		};
+		
+		JTable tabla = new JTable(datos, barraSup);
+		
+		JScrollPane scroll = new JScrollPane(tabla);
+		
+		scroll.setBounds(60,200,765,300);
+		panel.add(scroll);
+		scroll.repaint();
 		
 	}
 	
