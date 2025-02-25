@@ -144,6 +144,8 @@ public class Ventana extends JFrame {
 		panel.add(eContra);
 		eContra.repaint();
 		
+		//hola
+		
 	/*
 		setTitle("Registrarse");
 		setLayout(null);
