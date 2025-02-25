@@ -64,7 +64,7 @@ public class Calculadora extends JFrame {
 					boton.setForeground(Color.WHITE);
 				}
 				else
-					boton.setBackground(Color.decode("#f3f5f6"));
+					boton.setBackground(Color.GRAY.brighter().brighter());
 				boton.setFont(fuente);
 				boton.setBorder(null);
 				panel.add(boton);
