@@ -14,6 +14,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame.JDesktopIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -29,7 +32,7 @@ public class Ventana extends JFrame {
 		setTitle("Iniciar Sesión");
 		setLayout(null);
 		setVisible(true);
-		setSize(1000, 600);
+		setSize(1000, 630);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setBackground(Color.decode("#02a192"));
@@ -144,6 +147,44 @@ public class Ventana extends JFrame {
 		panel.add(eContra);
 		eContra.repaint();
 		
+		//Crear MenuBar
+		
+		JMenuBar barra = new JMenuBar();
+		barra.setBorder(new LineBorder(Color.decode("#01544c")));
+		barra.setBackground(Color.decode("#01544c"));
+		
+		//Crear Categorías del Menu
+		JMenu archivo = new JMenu("Archivo");
+		archivo.setForeground(Color.WHITE);
+		JMenu editar = new JMenu("Editar");
+		editar.setForeground(Color.WHITE);
+		
+		barra.add(archivo);
+		barra.add(editar);
+		
+		setJMenuBar(barra);
+		
+		barra.repaint();
+		barra.revalidate();
+		
+		//Crear elementos de la categoría Archivo
+		
+		JMenuItem archivo_nuevo = new JMenuItem("Nuevo");
+		JMenuItem archivo_abrir = new JMenuItem("Abrir");
+		JMenuItem archivo_guardar = new JMenuItem("Guardar");
+		JMenuItem archivo_guardarComo = new JMenuItem("Guardar como");
+		archivo.add(archivo_nuevo);
+		archivo.add(archivo_abrir);
+		archivo.add(archivo_guardar);
+		archivo.add(archivo_guardarComo);
+
+		
+		//Crear elementos de la categoría Editar
+		JMenuItem editar_deshacer = new JMenuItem("Deshacer");
+		JMenuItem editar_rehacer = new JMenuItem("Rehacer");
+		editar.add(editar_deshacer);
+		editar.add(editar_rehacer);
+	
 		//hola
 		
 	/*
