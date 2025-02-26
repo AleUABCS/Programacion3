@@ -1,5 +1,7 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,29 +18,36 @@ public class Calculadora extends JFrame {
 		Font fuente = new Font("Arial", Font.PLAIN, 30);
 		
 		setTitle("Calculadora");
-		setLayout(null);
 		setVisible(true);
-		setSize(500, 600);
+		setSize(500, 620);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setBackground(Color.WHITE);
 		
+		JPanel panelFrame = new JPanel();
+		panelFrame.setLayout(new BorderLayout());
+		add(panelFrame);
+		
 		//Panel
 		JPanel panel = new JPanel();
-		panel.setBounds(17, 15, 450, 530);
 		panel.setBackground(null);
-		panel.setLayout(null);
-		add(panel);
+		panelFrame.add(panel, BorderLayout.NORTH);
 		
 		//Pantalla
 		JLabel pantalla = new JLabel("                  0");
-		pantalla.setHorizontalTextPosition(SwingConstants.CENTER);;
+		pantalla.setHorizontalTextPosition(SwingConstants.CENTER);
 		pantalla.setFont(new Font("Arial", Font.PLAIN, 50));
-		pantalla.setBounds (20, 10, 290, 100);
 		pantalla.setBackground(null);
 		pantalla.setBorder(new LineBorder(Color.GRAY.brighter()));
 		pantalla.setOpaque(true);
 		panel.add(pantalla);
+		
+		JButton botonCE = new JButton ("CE");
+		botonCE.setFont(fuente);
+		panel.add(botonCE);
+		botonCE.setBackground(Color.WHITE);
+
+		
 		
 		//Crear botones
 		
@@ -48,7 +57,35 @@ public class Calculadora extends JFrame {
                 {"1", "2", "3", "-"},
                 {"0", ".", "=", "+"}
 		};
-                
+		
+		//Panel para los botones
+		JPanel panelBotones = new JPanel();
+		panelBotones.setBounds(43, 115, 400, 450);
+		panelFrame.add(panelBotones, BorderLayout.CENTER);
+		
+		//Crear LayOut
+		
+		panelBotones.setLayout(new GridLayout(4, 4));
+		
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{	
+				JButton boton = new JButton(matrizBotones[i][j]);
+				boton.setBackground(Color.decode("#cbcbcb"));
+				panelBotones.add(boton);
+				
+				if ((i == 3 || j == 3) && !boton.getText().equals("0"))
+					boton.setBackground(Color.WHITE);
+				
+			}
+		}
+		panelBotones.revalidate();
+		panelBotones.repaint();
+		
+		panelFrame.revalidate();
+		panelFrame.repaint();
+		/*
 		for (int i = 0; i < 4; i ++)
 		{
 			for (int j = 0; j < 4; j ++)
@@ -64,7 +101,7 @@ public class Calculadora extends JFrame {
 					boton.setForeground(Color.WHITE);
 				}
 				else
-					boton.setBackground(Color.GRAY.brighter().brighter());
+					boton.setBackground(Color.decode("#cbcbcb"));
 				boton.setFont(fuente);
 				boton.setBorder(null);
 				panel.add(boton);
@@ -75,10 +112,11 @@ public class Calculadora extends JFrame {
 		JButton boton = new JButton("CE");
 		boton.setBounds(320, 10, 90, 100);
 		panel.add(boton);
-		boton.setBackground(Color.decode("#f3f5f6"));
+		boton.setBackground(Color.decode("#cbcbcb"));
 		boton.setBorder(null);
 		boton.setFont(fuente);
 		
+		*/
 	}
 	
 }
