@@ -184,9 +184,10 @@ public class Ventana extends JFrame {
 		JMenuItem editar_rehacer = new JMenuItem("Rehacer");
 		editar.add(editar_deshacer);
 		editar.add(editar_rehacer);
-	
-		//hola
 		
+		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
+		setIconImage(iconoVentana.getImage());
+	
 	/*
 		setTitle("Registrarse");
 		setLayout(null);
