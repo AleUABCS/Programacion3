@@ -3,6 +3,8 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.ButtonGroup;
@@ -87,6 +89,22 @@ public class Ventana extends JFrame {
 		profBoton.setOpaque(true);
 		panel.add(profBoton);
 		profBoton.repaint();
+		
+		boton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!email.getText().equals(""))
+					email.setBorder(new LineBorder(Color.GREEN, 3));
+				else
+					email.setBorder(new LineBorder(Color.RED, 3));
+				
+				if (!password.getText().equals(""))
+					password.setBorder(new LineBorder(Color.GREEN, 3));
+				else
+					password.setBorder(new LineBorder(Color.RED, 3));
+			}
+		});
 		
 		//CheckBox recordar usuario
 		JCheckBox recordarme = new JCheckBox("Recordarme");
