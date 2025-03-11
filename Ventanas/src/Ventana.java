@@ -31,6 +31,7 @@ public class Ventana extends JFrame {
 	
 	public Ventana () {
 		
+		/*
 		setTitle("Iniciar Sesión");
 		setLayout(null);
 		setVisible(true);
@@ -205,8 +206,8 @@ public class Ventana extends JFrame {
 		
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
+		*/
 	
-	/*
 		setTitle("Registrarse");
 		setLayout(null);
 		setVisible(true);
@@ -231,13 +232,13 @@ public class Ventana extends JFrame {
 		
 		
 		//TextField para nombre
-		JTextField password = new JTextField("   Nombre de usuario");
-		password.setFont(new Font ("Calibri", Font.BOLD, 22));
-		password.setForeground(Color.GRAY.brighter());
-		password.setBounds(25, 130, 400, 60);
-		password.setBorder(new LineBorder(Color.GRAY.brighter(), 1));
-		panel.add(password);
-		password.repaint();
+		JTextField nombre = new JTextField("   Nombre de usuario");
+		nombre.setFont(new Font ("Calibri", Font.BOLD, 22));
+		nombre.setForeground(Color.GRAY.brighter());
+		nombre.setBounds(25, 130, 400, 60);
+		nombre.setBorder(new LineBorder(Color.GRAY.brighter(), 1));
+		panel.add(nombre);
+		nombre.repaint();
 
 		//TextArea para Biografía
 		JTextArea bio = new JTextArea("\n   Descripción / Bio");
@@ -263,8 +264,7 @@ public class Ventana extends JFrame {
 		panel.add(profBoton);
 		profBoton.repaint();
 		boton.repaint();
-		
-		
+
 		//RadioButtons términos
 		JRadioButton acepto = new JRadioButton("Acepto");
 		acepto.setBounds(230, 320, 100, 20);
@@ -335,7 +335,39 @@ public class Ventana extends JFrame {
 		ComboBoxColonias.setBackground(Color.WHITE);
 		panel.add(ComboBoxColonias);
 		ComboBoxColonias.repaint();
-		*/
+		
+		boton.addActionListener(new ActionListener() {
+			
+			LineBorder bordeRojo = new LineBorder(Color.RED,2);
+			LineBorder bordeVerde = new LineBorder(Color.GREEN,2);
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!nombre.getText().equals(""))
+					nombre.setBorder(bordeVerde);
+				else
+					nombre.setBorder(bordeRojo);
+				
+				if (!bio.getText().equals(""))
+					bio.setBorder(bordeVerde);
+				else
+					bio.setBorder(bordeRojo);
+				
+				if (!nombre.getText().equals(""))
+					nombre.setBorder(bordeVerde);
+				else
+					nombre.setBorder(bordeRojo);
+				
+				if (!acepto.isSelected()) {
+					acepto.setBorder(bordeVerde);
+					System.out.println("ola");
+				}
+				
+					
+				
+			}
+		});
+		
 		
 		/*
 		setTitle("Tabla");
