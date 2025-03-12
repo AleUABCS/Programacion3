@@ -221,9 +221,11 @@ public class Ventana extends JFrame {
 		archivo.setForeground(Color.WHITE);
 		JMenu editar = new JMenu("Editar");
 		editar.setForeground(Color.WHITE);
+		JMenu cuenta = new JMenu("Cuenta");
 		
 		barra.add(archivo);
 		barra.add(editar);
+		barra.add(cuenta);
 		
 		setJMenuBar(barra);
 		
@@ -247,6 +249,30 @@ public class Ventana extends JFrame {
 		JMenuItem editar_rehacer = new JMenuItem("Rehacer");
 		editar.add(editar_deshacer);
 		editar.add(editar_rehacer);
+		
+		//Elementos de categoría Cuenta
+		JMenuItem cuenta_registro = new JMenuItem("Registro");
+		JMenuItem cuenta_login = new JMenuItem("Login");
+		cuenta.add(cuenta_registro);
+		cuenta.add(cuenta_login);
+		
+		cuenta.setForeground(Color.WHITE);
+		
+		cuenta_registro.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						cambiar("Registro");
+					}
+				});
+		
+		cuenta_login.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cambiar("Login");
+			}
+		});
 		
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
