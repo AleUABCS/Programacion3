@@ -31,7 +31,6 @@ public class Ventana extends JFrame {
 	
 	public Ventana () {
 		
-		/*
 		setTitle("Iniciar Sesión");
 		setLayout(null);
 		setVisible(true);
@@ -93,17 +92,57 @@ public class Ventana extends JFrame {
 		
 		boton.addActionListener(new ActionListener() {
 			
+			boolean emailCorrecto = false, passwordCorrecto = false;
+			JLabel mensajeError = new JLabel("Contraseña o correo incorrectos");
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (!email.getText().equals(""))
+				if (email.getText().equals("abcdefg@gmail.com"))
+				{
 					email.setBorder(new LineBorder(Color.GREEN, 3));
+					emailCorrecto = true;
+				}
 				else
+				{
 					email.setBorder(new LineBorder(Color.RED, 3));
+					emailCorrecto = false;
+				}
 				
-				if (!password.getText().equals(""))
+				if (password.getText().equals("abcde1234"))
+				{
 					password.setBorder(new LineBorder(Color.GREEN, 3));
+					passwordCorrecto = true;
+				}
 				else
+				{
 					password.setBorder(new LineBorder(Color.RED, 3));
+					passwordCorrecto = false;
+				}
+				
+				if (emailCorrecto && passwordCorrecto)
+				{
+					JFrame frameInicioSesion = new JFrame();
+					frameInicioSesion.setTitle("Información");
+					frameInicioSesion.setSize(400,300);
+					frameInicioSesion.setLocationRelativeTo(null);
+					frameInicioSesion.setLayout(null);
+					frameInicioSesion.getContentPane().setBackground(Color.decode("#a4d6fe"));
+					JLabel mensaje = new JLabel("Inicio de sesión exitoso");
+					mensaje.setFont(new Font("Calibri", Font.PLAIN, 34));
+					frameInicioSesion.add(mensaje);
+					mensaje.setBounds(30,100,340,50);
+					frameInicioSesion.setVisible(true);
+					mensajeError.setVisible(false);
+				}
+				else
+				{
+					panel.add(mensajeError);
+					mensajeError.setVisible(true);
+					mensajeError.setBounds(235, 125, 250, 50);
+					mensajeError.setForeground(Color.RED);
+				}
+					
+				
 			}
 		});
 		
@@ -206,8 +245,7 @@ public class Ventana extends JFrame {
 		
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
-		*/
-	
+		/*
 		setTitle("Registrarse");
 		setLayout(null);
 		setVisible(true);
@@ -368,6 +406,7 @@ public class Ventana extends JFrame {
 			}
 		});
 		
+		*/
 		
 		/*
 		setTitle("Tabla");
