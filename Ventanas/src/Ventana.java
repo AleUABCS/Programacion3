@@ -30,6 +30,10 @@ import javax.swing.border.LineBorder;
 public class Ventana extends JFrame {
 	
 	public Ventana () {
+		login();
+	}
+	
+	public JFrame login () {
 		
 		setTitle("Iniciar Sesión");
 		setLayout(null);
@@ -97,6 +101,7 @@ public class Ventana extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				if (email.getText().equals("abcdefg@gmail.com"))
 				{
 					email.setBorder(new LineBorder(Color.GREEN, 3));
@@ -245,19 +250,37 @@ public class Ventana extends JFrame {
 		
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
-		/*
+		
+		JButton botonRegistro = new JButton ("Crear cuenta");
+		
+		botonRegistro.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cambiar("Registro");
+			}
+		});
+		
+		panel.add(botonRegistro);
+		botonRegistro.setBounds(305,440,120,30);
+			
+		return this;
+	}
+		
+	public JFrame registro () {
+		
 		setTitle("Registrarse");
 		setLayout(null);
 		setVisible(true);
-		setSize(500,600);
+		setSize(500,650);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.getContentPane().setBackground(Color.decode("#e8d8fd"));
+		getContentPane().setBackground(Color.decode("#e8d8fd"));
 		
 		//Panel
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(17, 15, 450, 530);
+		panel.setBounds(17, 15, 450, 550);
 		panel.setLayout(null);
 		add(panel);
 		
@@ -398,15 +421,39 @@ public class Ventana extends JFrame {
 				
 				if (!acepto.isSelected()) {
 					acepto.setBorder(bordeVerde);
-					System.out.println("ola");
 				}
 				
 					
 				
 			}
+			
 		});
 		
-		*/
+		JButton botonLogin = new JButton ("Volver");
+		
+		botonLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cambiar("Login");
+				
+			}
+		});
+		botonLogin.setBounds(325,500,100,30);
+		panel.add(botonLogin);
+		
+	return this;
+		
+	}
+	
+	public void cambiar (String target) {
+		this.getContentPane().removeAll();
+		
+		if (target.equals("Registro"))
+			this.registro();
+		if (target.equals("Login"))
+			this.login();
+	}
 		
 		/*
 		setTitle("Tabla");
@@ -480,4 +527,3 @@ public class Ventana extends JFrame {
 	}
 	
 	
-}
