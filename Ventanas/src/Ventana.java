@@ -211,7 +211,6 @@ public class Ventana extends JFrame {
 		eContra.repaint();
 		
 		//Crear MenuBar
-		
 		JMenuBar barra = new JMenuBar();
 		barra.setBorder(new LineBorder(Color.decode("#01544c")));
 		barra.setBackground(Color.decode("#01544c"));
@@ -222,10 +221,17 @@ public class Ventana extends JFrame {
 		JMenu editar = new JMenu("Editar");
 		editar.setForeground(Color.WHITE);
 		JMenu cuenta = new JMenu("Cuenta");
+		cuenta.setForeground(Color.WHITE);
+		JMenu usuarios = new JMenu("Usuarios");
+		usuarios.setForeground(Color.WHITE);
+		JMenu ayuda = new JMenu("Aiuda");
+		ayuda.setForeground(Color.WHITE);
 		
 		barra.add(archivo);
 		barra.add(editar);
 		barra.add(cuenta);
+		barra.add(usuarios);
+		barra.add(ayuda);
 		
 		setJMenuBar(barra);
 		
@@ -253,37 +259,79 @@ public class Ventana extends JFrame {
 		//Elementos de categoría Cuenta
 		JMenuItem cuenta_registro = new JMenuItem("Registro");
 		JMenuItem cuenta_login = new JMenuItem("Login");
+		JMenuItem cuenta_recuperar = new JMenuItem("Recuperar cuenta");
 		cuenta.add(cuenta_registro);
 		cuenta.add(cuenta_login);
+		cuenta.add(cuenta_recuperar);
 		
-		cuenta.setForeground(Color.WHITE);
+		//Elementos de categoría Usuarios
+		JMenuItem usuarios_alta = new JMenuItem("Alta");
+		JMenuItem usuarios_baja = new JMenuItem("Baja");
+		JMenuItem usuarios_consultar = new JMenuItem("Consultar");
+		usuarios.add(usuarios_alta);
+		usuarios.add(usuarios_baja);
+		usuarios.add(usuarios_consultar);
 		
-		cuenta_registro.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						cambiar("Registro");
-					}
-				});
+		//Elementos de categoría Ayuda
+		JMenuItem ayuda_crear = new JMenuItem("¿Cómo crear un usuario?");
+		JMenuItem ayuda_acceder = new JMenuItem("Cómo acceder al sistema?");
+		JMenuItem ayuda_olvideContra = new JMenuItem("¿Cómo crear un usuario?");
+		ayuda.add(ayuda_crear);
+		ayuda.add(ayuda_acceder);
+		ayuda.add(ayuda_olvideContra);
 		
-		cuenta_login.addActionListener(new ActionListener() {
+		//Aciones del menú
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar("Login");
-			}
-		});
+			//Menú Cuenta
+				//Acción opción Registro
+					cuenta_registro.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							cambiar(1);
+						}
+					});
+		
+				//Acción opción Login
+					cuenta_login.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							cambiar(2);
+						}
+					});
+				
+				//Ación opción Recuperar cuenta
+					cuenta_recuperar.addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							cambiar(3); //Recuperar cuenta
+						}
+					});
+					
+			//Menu Usuario
+				
+						//Acción Alta
+						usuarios_alta.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								cambiar(4);
+							}
+						});
+			
 		
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
 		
+		//Botón Registro
 		JButton botonRegistro = new JButton ("Crear cuenta");
-		
 		botonRegistro.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cambiar("Registro");
+				cambiar(1); //Registro
 			}
 		});
 		
@@ -461,24 +509,87 @@ public class Ventana extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cambiar("Login");
+				cambiar(2); //Login
 				
 			}
 		});
 		botonLogin.setBounds(325,500,100,30);
 		panel.add(botonLogin);
 		
+		repaint();
+		
 	return this;
 		
 	}
 	
-	public void cambiar (String target) {
+	public JFrame recuperar () {
+		
+		setTitle("Registrarse");
+		setLayout(null);
+		setVisible(true);
+		setSize(500,650);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		getContentPane().setBackground(Color.decode("#e8d8fd"));
+		
+		JLabel tituloRecuperar = new JLabel("Recuperar cuenta");
+		tituloRecuperar.setFont(new Font("", Font.PLAIN, 34));
+		tituloRecuperar.setBounds(100,50,300,50);
+		add(tituloRecuperar);
+		
+		repaint();
+		
+		return this;
+	}
+	
+	public JFrame alta () {
+		setTitle("Registrarse");
+		setLayout(null);
+		setVisible(true);
+		setSize(500,650);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		getContentPane().setBackground(Color.decode("#e8d8fd"));
+		
+		JLabel titulo = new JLabel ("Alta");
+		titulo.setFont(new Font("", Font.BOLD, 30));
+		titulo.setSize(200,50);
+		add(titulo);
+		
+		repaint();
+		return this;
+	}
+	
+	public void cambiar (int target) {
 		this.getContentPane().removeAll();
 		
-		if (target.equals("Registro"))
+		switch (target) {
+		//Cuenta
+		case 1: //Registro
 			this.registro();
-		if (target.equals("Login"))
+		break;
+		
+		case 2: //Login
 			this.login();
+		break;
+		
+		case 3: //Recuperar cuenta
+			this.recuperar();
+		break;
+		
+		//Usuarios
+		case 4: //Alta
+			this.alta();
+		break;
+		
+//		case 3: //Baja
+//			this.baja();
+//		break;
+//		
+//		case 3: //Consultar
+//			this.consultar();
+//		break;
+		}
 	}
 		
 		/*
