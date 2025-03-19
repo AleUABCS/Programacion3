@@ -42,9 +42,9 @@ public class Botones extends JFrame {
 				
 				boton2.addActionListener(new ActionListener() {
 					
+					JOptionPane optionPane = new JOptionPane();
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						JOptionPane optionPane = new JOptionPane();
 						optionPane.showConfirmDialog(boton2, boton2.getText());
 						panel.remove(boton2);
 						panel.repaint();
