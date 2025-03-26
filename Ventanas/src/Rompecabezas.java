@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -15,10 +16,20 @@ public class Rompecabezas extends JFrame {
 	Random rand = new Random();
 	int matrizNum[][] = new int[4][4];
 	int valor;
+	int numeros[] = new int[16];
+	Font fuente = new Font("", Font.BOLD, 28);
+
+
+	
+	int matrizOrigen[][] = {{1,2,3,4},
+							{5,6,7,8},
+							{9,10,11,12},
+							{13,14,15,0},	
+							};
 
 	public Rompecabezas () {
 
-		setSize(500, 500);
+		setSize(600, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -27,38 +38,36 @@ public class Rompecabezas extends JFrame {
 		revalidate();
 		repaint();
 		
+		JPanel panelGeneral = new JPanel();
+		panelGeneral.setLayout(new BorderLayout());
+		panelGeneral.setOpaque(false);
+		
 		JPanel panel = new JPanel();
-		add(panel);
+		panelGeneral.add(panel, BorderLayout.CENTER);
 		panel.setBorder(new EmptyBorder(20,20,20,20));
 		panel.setOpaque(false);
 		panel.setLayout(new GridLayout(4,4,10,10));
 		
+		JPanel panelOpciones = new JPanel();
+		panelOpciones.setOpaque(false);
+		panelGeneral.add(panelOpciones, BorderLayout.EAST);
+		
+		JButton reiniciar = new JButton("Reiniciar");
+		reiniciar.setFont(fuente);
+		panelOpciones.add(reiniciar);
+		
+		add(panelGeneral);
+		
 		//Generar arreglo de los números del 1 al 15
-		 int numeros[] = new int[16];
 		 for (int i = 1; i <= 15; i++) {
 			 numeros[i-1] = i;
 		 }
 		 numeros[15] = 0;
 		 
 		 //Aleatorizar el arreglo en numerosRand
-		 for (int i = 0; i < 100; i++) {
-			 int indexR1 = rand.nextInt(0, 15);
-			 int indexR2 = rand.nextInt(0, 15);
-			 int num1, num2;
-
-			 num1 = numeros[indexR1];
-			 numeros[indexR1] = numeros[indexR2];
-			 numeros[indexR2] = num1;
-		 }
-		 int numAux;
-		 
-//		 //Imprimir el arreglo de los números nomás pa saber jeje
-//		 for (int i = 0; i < 15; i++) {
-//			 System.out.println(Integer.toString(numeros[i]));
-//		 }
+		 aleatorizar();
 		 
 		 //Añadir los botones
-		 Font fuente = new Font("", Font.BOLD, 28);
 		 int k = 0;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
@@ -148,23 +157,64 @@ public class Rompecabezas extends JFrame {
 									botones[posX][posY-1].setText(auxStr);									
 								}
 							imprimirMatriz();
+							
+							if (validarGanador()) {
+								setEnabledBotones(false);
+								
+								JLabel texto = new JLabel("Ganates!");
+								texto.setFont(new Font("", Font.PLAIN, 28));
+								
+								JOptionPane.showMessageDialog(null, texto);
+							}
 						}
 					});
 			}
 		}
+		
+		reiniciar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				aleatorizar();
+				 int k = 0;
+				 for (int i = 0; i < 4; i++) {
+					 for (int j = 0; j < 4; j++) {
+							 botones[j][i].setText(Integer.toString(numeros[k]));
+						 k++;
+					 }
+				 }
+				setEnabledBotones(true);
+			}
+		});
 		botones[3][3].setForeground(Color.decode("#bcff73"));
 		revalidate();
 		
-		 //Crear matriz con los números
-		k = 0;
-		for (int i = 0; i < 4; i++) {
-			 for (int j = 0; j < 4; j++) {
-					 matrizNum[j][i] = numeros[k];
-				 k++;
+		imprimirMatriz();
+	}
+	
+	public boolean validarGanador() {
+		int cont = 0;
+		for (int i = 0; i < 4 && cont < 16; i++) {
+			 for (int j = 0; j < 4 && cont < 16; j++) {
+				 System.out.println(cont);
+				 System.out.println(matrizNum[j][i] + " ");
+				 System.out.println(matrizOrigen[j][i]);
+					 if (matrizNum[i][j] == matrizOrigen[j][i]) {
+						 cont++;
+					 } 
+					 else
+						 cont = 20;
 			 }
 		 }
-		
-		imprimirMatriz();
+		return (cont < 20)? true : false;
+	}
+	
+	public void setEnabledBotones(boolean opc) {
+		for (int i = 0; i < 4; i++) {
+			 for (int j = 0; j < 4; j++) {
+					 botones[j][i].setEnabled(opc);
+			 }
+		}
 	}
 	
 	public void imprimirMatriz() {
@@ -175,6 +225,25 @@ public class Rompecabezas extends JFrame {
 			}
 			System.out.println();
 		}
+	}
+	
+	public void aleatorizar() {
+		 for (int e = 0; e < 100; e++) {
+			 int indexR1 = rand.nextInt(0, 15);
+			 int indexR2 = rand.nextInt(0, 15);
+			 int num1, num2;
+
+			 num1 = numeros[indexR1];
+			 numeros[indexR1] = numeros[indexR2];
+			 numeros[indexR2] = num1;
+			 int k = 0;
+			 for (int i = 0; i < 4; i++) {
+				 for (int j = 0; j < 4; j++) {
+						 matrizNum[j][i] = numeros[k];
+					 k++;
+				 }
+			 }
+		 }
 	}
 	
 	public static void main(String[] args) {
