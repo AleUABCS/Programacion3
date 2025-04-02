@@ -180,10 +180,12 @@ public class Rompecabezas extends JFrame {
 				 for (int i = 0; i < 4; i++) {
 					 for (int j = 0; j < 4; j++) {
 							 botones[j][i].setText(Integer.toString(numeros[k]));
+							 botones[j][i].setForeground(Color.decode("#333333"));
 						 k++;
 					 }
 				 }
-				setEnabledBotones(true);
+				 botones[3][3].setForeground(Color.decode("#bcff73"));
+				 setEnabledBotones(true);
 			}
 		});
 		botones[3][3].setForeground(Color.decode("#bcff73"));
