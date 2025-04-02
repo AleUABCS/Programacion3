@@ -52,6 +52,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 	int tool = 1;
 	int contador = 0;
  	int lineaX, lineaY, lineaX2, lineaY2;
+ 	boolean borrador = false;
 
 	
 	JTextField fieldSize;
@@ -142,7 +143,9 @@ public class Paint implements MouseListener, MouseMotionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
+		frame.setTitle("Paint Java");
 		frame.setBounds(100, 100, 950, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -248,9 +251,48 @@ public class Paint implements MouseListener, MouseMotionListener {
 		panel_6.add(herramientas);
 		
 		JButton botonErase = new JButton("ERASE");
+		botonErase.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				borrador = borrador == true? false : true;
+				if (borrador)
+					botonErase.setBackground(Color.LIGHT_GRAY);
+				else
+					botonErase.setBackground(null);
+			}
+		});
 		panel_6.add(botonErase);
 		
 		JButton botonClean = new JButton("CLEAN");
+		botonClean.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(figuras.size());
+				System.out.println(lineas.size());
+				System.out.println(triangulos.size());
+				System.out.println(listaDeTrazos.size());
+				
+				if (figuras.size() > 0)
+					figuras.clear();
+				
+				if (lineas.size() > 0) {
+					lineas.clear();
+				}
+				
+				if (triangulos.size() > 0)
+					triangulos.clear();
+				
+				if (listaDeTrazos.size() > 0)
+					listaDeTrazos.clear();
+				
+				lienzo.repaint();
+			}
+		});
+		
 		panelBotones.add(botonClean);
 		
 		JButton botonSave = new JButton("SAVE");
@@ -316,8 +358,11 @@ public class Paint implements MouseListener, MouseMotionListener {
  		if (herramientas.getSelectedIndex() != 4)
  			contador = 0;
  		
- 	    if (!puntos.isEmpty() && herramientas.getSelectedIndex() == 0)
- 	    {
+ 		if (borrador == true) {
+ 			listaDeTrazos.add(new Trazo(puntos, Color.WHITE, grosor));
+ 			puntos.clear();
+ 		}
+ 		else if (!puntos.isEmpty() && herramientas.getSelectedIndex() == 0) {
  	        listaDeTrazos.add(new Trazo(puntos, colorSeleccionado, grosor));
  	        puntos.clear(); // Limpiar los puntos actuales 
  	    }
@@ -325,7 +370,6 @@ public class Paint implements MouseListener, MouseMotionListener {
  	    	figuras.add(new Figura(e.getX(), e.getY(), grosor, colorSeleccionado, herramientas.getSelectedIndex()));
  	    	puntos.clear();
  	    }
-
  	    else if (herramientas.getSelectedIndex() == 3) {
 		    	triangulos.add(new Triangulo(e.getX(), e.getY(), e.getX()+50, e.getY()+70, e.getX()-50, e.getY()+70,
 		    			grosor, colorSeleccionado, 1));
@@ -353,10 +397,11 @@ public class Paint implements MouseListener, MouseMotionListener {
  
  	@Override
  	public void mouseDragged(MouseEvent e) {
- 		if (herramientas.getSelectedIndex() == 0) {
- 			lienzo.repaint();
+ 		
+ 		if (herramientas.getSelectedIndex() == 0 || borrador == true) {
  			puntos.add(e.getPoint());
  		}
+ 		lienzo.repaint();
  	}
  
  	@Override
@@ -391,7 +436,6 @@ public class Paint implements MouseListener, MouseMotionListener {
 	 		                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 	 		            }
 	 		        }
-	 		        
 	 		    }
 	 		    
 	 		    for (Figura figura : figuras) {
@@ -424,53 +468,70 @@ public class Paint implements MouseListener, MouseMotionListener {
 	 		    	}
 	 		    }
 	 		
-	 		    
- 		    switch (herramientas.getSelectedIndex()) {
- 	 		case 0: // Brocha
- 	 		    // Dibujar el trazo actual con el color seleccionado
- 	 		    g2.setColor(colorSeleccionado); // Le asigna al trazo el color de la variable global colorSeleccionado, para pintarlo con el color seleccionado en ese momento y no con los anteriores
- 	 		    g2.setStroke(new BasicStroke(grosor)); // Lo mismo con el grosor
- 	 		    if (puntos.size() > 1) {
- 	 		        for (int i = 1; i < puntos.size(); i++) {
+	 		if (borrador == true) {
+	 			if (puntos.size() > 0) {
+	 				g2.setColor(Color.WHITE);
+	 				g2.setStroke(new BasicStroke(grosor));
+	 				for (int i = 1; i < puntos.size(); i++) {
  	 		            Point p1 = puntos.get(i - 1);
  	 		            Point p2 = puntos.get(i);
  	 		            g2.drawLine(p1.x, p1.y, p2.x, p2.y);
  	 		        }
- 	 		    }
- 	 		break;
- 	 		
- 	 		case 1: // Rectángulo
- 	 			g2.setColor(colorSeleccionado); // Le asigna al trazo el color de la variable global colorSeleccionado, para pintarlo con el color seleccionado en ese momento y no con los anteriores
- 	 		    g2.setStroke(new BasicStroke(grosor)); // Lo mismo con el grosor
- 	 		            p1 = puntos.getLast();
- 	 		            g2.drawRect(p1.x-25, p1.y-25, 50, 50);
- 	 		        
- 	 		break;
- 	 		
- 	 		case 2: // Círculo
- 	 			g2.setColor(colorSeleccionado); // Le asigna al trazo el color de la variable global colorSeleccionado, para pintarlo con el color seleccionado en ese momento y no con los anteriores
- 	 		    g2.setStroke(new BasicStroke(grosor)); // Lo mismo con el grosor
- 	 		            p1 = puntos.getLast();
- 	 		            g2.drawOval(p1.x-25, p1.y-25, 50, 50);
- 	 		break;
- 	 		
- 	 		case 3: // Triángulo
- 	 			g2.setColor(colorSeleccionado); // Le asigna al trazo el color de la variable global colorSeleccionado, para pintarlo con el color seleccionado en ese momento y no con los anteriores
- 	 		    g2.setStroke(new BasicStroke(grosor)); // Lo mismo con el grosor
- 	 		    		p1 = puntos.getLast();
- 	 		    		int xs[] = {p1.x, p1.x+50, p1.x-50};
- 		 		    	int ys[] = {p1.y, p1.y+70, p1.y+70};
- 	 		    		g2.drawPolygon(xs, ys, 3);
- 	 		break;
- 	 		
- 	 		case 4: // Línea
- 	 			if (contador == 2) {
- 	 				g2.setColor(colorSeleccionado);
- 	 				g2.setStroke(new BasicStroke(grosor));
- 	 				g2.drawLine(lineaX, lineaY, lineaX2, lineaY2); 	 				
- 	 			}
- 	 		break;
- 	 		}
+	 			}
+	 		}
+	 		else
+	 		    switch (herramientas.getSelectedIndex()) {
+	 	 		case 0: // Brocha
+	 	 		    // Dibujar el trazo actual con el color seleccionado
+	 	 		    g2.setColor(colorSeleccionado); // Le asigna al trazo el color de la variable global colorSeleccionado, para pintarlo con el color seleccionado en ese momento y no con los anteriores
+	 	 		    g2.setStroke(new BasicStroke(grosor)); // Lo mismo con el grosor
+	 	 		    if (puntos.size() > 1) {
+	 	 		        for (int i = 1; i < puntos.size(); i++) {
+	 	 		            Point p1 = puntos.get(i - 1);
+	 	 		            Point p2 = puntos.get(i);
+	 	 		            g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+	 	 		        }
+	 	 		    }
+	 	 		break;
+	 	 		
+	 	 		case 1: // Rectángulo
+	 	 			if (puntos.size() > 0) {
+		 	 			g2.setColor(colorSeleccionado);
+		 	 		    g2.setStroke(new BasicStroke(grosor));
+		 	 		    p1 = puntos.getLast();
+		 	 		    g2.drawRect(p1.x-25, p1.y-25, 50, 50);
+	 	 			}
+	 	 		        
+	 	 		break;
+	 	 		
+	 	 		case 2: // Círculo
+	 	 			if (puntos.size() > 0) {
+		 	 			g2.setColor(colorSeleccionado);
+		 	 		    g2.setStroke(new BasicStroke(grosor));
+	 		           	p1 = puntos.getLast();
+	 		            g2.drawOval(p1.x-25, p1.y-25, 50, 50);
+	 	 			}
+	 	 		break;
+	 	 		
+	 	 		case 3: // Triángulo
+	 	 			if (puntos.size() > 0) {
+		 	 			g2.setColor(colorSeleccionado);
+		 	 		    g2.setStroke(new BasicStroke(grosor)); 
+		 	 		    		p1 = puntos.getLast();
+		 	 		    		int xs[] = {p1.x, p1.x+50, p1.x-50};
+		 		 		    	int ys[] = {p1.y, p1.y+70, p1.y+70};
+		 	 		    		g2.drawPolygon(xs, ys, 3);
+	 	 			}
+	 	 		break;
+	 	 		
+	 	 		case 4: // Línea
+	 	 			if (contador == 2) {
+	 	 				g2.setColor(colorSeleccionado);
+	 	 				g2.setStroke(new BasicStroke(grosor));
+	 	 				g2.drawLine(lineaX, lineaY, lineaX2, lineaY2); 	 				
+	 	 			}
+	 	 		break;
+	 	 		}
 
  		   
  		}
