@@ -30,6 +30,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Paint implements MouseListener, MouseMotionListener {
 
@@ -53,13 +55,16 @@ public class Paint implements MouseListener, MouseMotionListener {
 	int contador = 0;
  	int lineaX, lineaY, lineaX2, lineaY2;
  	boolean borrador = false;
+ 	boolean relleno = false;
 
 	
 	JTextField fieldSize;
 	
+	int tamaño;
 	int grosor;
 	
 	JComboBox<String> herramientas;
+	private JTextField fieldSizeFiguras;
 	
 	// Clase para guardar el color del trazo
 	class Trazo {
@@ -80,14 +85,18 @@ public class Paint implements MouseListener, MouseMotionListener {
 		int grosor;
 		Color color;
 		int tipo;
-		List<Point> puntos;
+		int tamaño;
+		boolean relleno;
 		
-		public Figura(int x, int y, int grosor, Color color, int tipo) {
+		public Figura(int x, int y, int grosor, Color color, int tipo, int tamaño, boolean relleno) {
 			this.x = x;
 			this.y = y;
 			this.grosor = grosor;
 			this.color = color;
 			this.tipo = tipo;
+			this.tamaño = tamaño;
+			this.relleno = relleno;
+			
 		}
 	}
 	
@@ -96,7 +105,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 		int y2;
 		
 		public Linea(int x, int y, int x2, int y2, int grosor, Color color, int tipo) {
-			super(x, y, grosor, color, tipo);
+			super(x, y, grosor, color, 1, 1, false);
 			// TODO Auto-generated constructor stub
 			this.x2 = x2;
 			this.y2 = y2;
@@ -107,11 +116,12 @@ public class Paint implements MouseListener, MouseMotionListener {
 		int x3;
 		int y3;
 		
-		public Triangulo(int x, int y, int x2, int y2, int x3, int y3, int grosor, Color color, int tipo) {
+		public Triangulo(int x, int y, int x2, int y2, int x3, int y3, int grosor, Color color, int tipo, boolean relleno) {
 			super(x, y, x2, y2, grosor, color, tipo);
 			// TODO Auto-generated constructor stub
 			this.x3 = x3;
 			this.y3 = y3;
+			this.relleno = relleno;
 		}
 	}
 	
@@ -146,7 +156,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 		
 		frame = new JFrame();
 		frame.setTitle("Paint Java");
-		frame.setBounds(100, 100, 950, 550);
+		frame.setBounds(100, 100, 950, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panelGeneral = new JPanel();
@@ -154,11 +164,12 @@ public class Paint implements MouseListener, MouseMotionListener {
 		frame.getContentPane().add(panelGeneral, BorderLayout.CENTER);
 		frame.getContentPane().setBackground(new Color(128, 128, 128));
 		panelGeneral.setOpaque(false);
-		panelGeneral.setLayout(new BorderLayout(20, 0));
+		panelGeneral.setLayout(null);
 		
 		JPanel panelIzquierda = new JPanel();
+		panelIzquierda.setBounds(20, 20, 250, 523);
 		panelIzquierda.setBorder(new EmptyBorder(10,20,10,20));
-		panelGeneral.add(panelIzquierda, BorderLayout.WEST);
+		panelGeneral.add(panelIzquierda);
 		
 		// Crear panel con los botones de selección de color
 		JPanel panelColores = new JPanel();
@@ -200,10 +211,66 @@ public class Paint implements MouseListener, MouseMotionListener {
 		fieldColor.setColumns(10);
 		
 		JButton botonRellenar = new JButton("RELLENAR");
+		botonRellenar.setBackground(new Color(255, 255, 255));
 		panelBotones.add(botonRellenar);
 		
-		JLabel labelSize = new JLabel("Size");
-		panelBotones.add(labelSize);
+		JPanel panel = new JPanel();
+		panelBotones.add(panel);
+		panel.setLayout(new GridLayout(0, 5, 2, 0));
+		
+		JLabel lblNewLabel = new JLabel("Size");
+		panel.add(lblNewLabel);
+		
+		JButton botonMenosFiguras = new JButton("-");
+		botonMenosFiguras.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		botonMenosFiguras.setBackground(new Color(255, 255, 255));
+		botonMenosFiguras.setVisible(false);
+		botonMenosFiguras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				fieldSizeFiguras.setText(Integer.toString(Integer.parseInt(fieldSizeFiguras.getText())-1));
+			}
+		});
+		panel.add(botonMenosFiguras);
+		
+		fieldSizeFiguras = new JTextField();
+		fieldSizeFiguras.setHorizontalAlignment(SwingConstants.CENTER);
+		fieldSizeFiguras.setText("20");
+		fieldSizeFiguras.setVisible(false);
+		panel.add(fieldSizeFiguras);
+		fieldSizeFiguras.setColumns(10);
+		
+		JButton botonMasFiguras = new JButton("+");
+		botonMasFiguras.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		botonMasFiguras.setBackground(new Color(255, 255, 255));
+		botonMasFiguras.setVisible(false);
+		botonMasFiguras.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				fieldSizeFiguras.setText(Integer.toString(Integer.parseInt(fieldSizeFiguras.getText())+1));
+			}
+		});
+		panel.add(botonMasFiguras);
+		
+		JButton botonRelleno = new JButton("R");
+		botonRelleno.setFont(new Font("Tahoma", Font.BOLD, 9));
+		botonRelleno.setBackground(new Color(255, 255, 255));
+		botonRelleno.setVisible(false);
+		botonRelleno.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				relleno = !relleno;
+				
+				botonRelleno.setBackground(relleno == true? Color.LIGHT_GRAY : Color.WHITE);
+			}
+		});
+		panel.add(botonRelleno);
 		
 		JPanel panel_5 = new JPanel();
 		panelBotones.add(panel_5);
@@ -211,8 +278,10 @@ public class Paint implements MouseListener, MouseMotionListener {
 		
 		
 		fieldSize = new JTextField("5");
+		fieldSize.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JButton botonMenos = new JButton("-");
+		botonMenos.setBackground(new Color(255, 255, 255));
 		botonMenos.addActionListener(new ActionListener() {
 			
 			@Override
@@ -226,6 +295,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 		panel_5.add(botonMenos);
 		panel_5.add(fieldSize);
 		JButton botonMas = new JButton("+");
+		botonMas.setBackground(new Color(255, 255, 255));
 		panel_5.add(botonMas);
 		botonMas.addActionListener(new ActionListener() {
 			
@@ -242,30 +312,53 @@ public class Paint implements MouseListener, MouseMotionListener {
 		panel_6.setLayout(new GridLayout(1, 2, 25, 0));
 		
 		herramientas = new JComboBox<String>();
+		herramientas.setBackground(new Color(255, 255, 255));
 		herramientas.addItem("Brocha");
 		herramientas.addItem("Rectángulo");
 		herramientas.addItem("Círculo");
 		herramientas.addItem("Triángulo");
 		herramientas.addItem("Línea");
 		
+		herramientas.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (herramientas.getSelectedIndex() >= 1 && herramientas.getSelectedIndex() <= 3) {
+					botonMasFiguras.setVisible(true);
+					botonMenosFiguras.setVisible(true);
+					fieldSizeFiguras.setVisible(true);
+					botonRelleno.setVisible(true);
+				}
+				else {
+					botonMasFiguras.setVisible(false);
+					botonMenosFiguras.setVisible(false);
+					fieldSizeFiguras.setVisible(false);
+					botonRelleno.setVisible(false);
+				}
+			}
+		});
+		
 		panel_6.add(herramientas);
 		
 		JButton botonErase = new JButton("ERASE");
+		botonErase.setBackground(new Color(255, 255, 255));
 		botonErase.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				borrador = borrador == true? false : true;
+				borrador = !borrador;
 				if (borrador)
 					botonErase.setBackground(Color.LIGHT_GRAY);
 				else
-					botonErase.setBackground(null);
+					botonErase.setBackground(Color.WHITE);
 			}
 		});
 		panel_6.add(botonErase);
 		
 		JButton botonClean = new JButton("CLEAN");
+		botonClean.setBackground(new Color(255, 255, 255));
 		botonClean.addActionListener(new ActionListener() {
 			
 			@Override
@@ -296,9 +389,11 @@ public class Paint implements MouseListener, MouseMotionListener {
 		panelBotones.add(botonClean);
 		
 		JButton botonSave = new JButton("SAVE");
+		botonSave.setBackground(new Color(255, 255, 255));
 		panelBotones.add(botonSave);
 		
 		panelDerecha = new JPanel();
+		panelDerecha.setBounds(290, 20, 624, 523);
 		panelDerecha.setLayout(new BorderLayout());
 		panelGeneral.add(panelDerecha);
 		
@@ -317,6 +412,7 @@ public class Paint implements MouseListener, MouseMotionListener {
  	@Override
  	public void mousePressed(MouseEvent e) {
  		// TODO Auto-generated method stub
+ 		tamaño = Integer.parseInt(fieldSizeFiguras.getText());
  		grosor = Integer.parseInt(fieldSize.getText());
  		try {
  			colorSeleccionado = Color.decode("#"+fieldColor.getText());			
@@ -351,6 +447,7 @@ public class Paint implements MouseListener, MouseMotionListener {
  	@Override
  	public void mouseReleased(MouseEvent e) {
  		
+ 		System.out.println("Released");
  		//crear una copia de los puntos
  		ArrayList ArrList2  = (ArrayList)puntos.clone();
  		
@@ -367,12 +464,12 @@ public class Paint implements MouseListener, MouseMotionListener {
  	        puntos.clear(); // Limpiar los puntos actuales 
  	    }
  	    else if (herramientas.getSelectedIndex() == 1 || herramientas.getSelectedIndex() == 2) {
- 	    	figuras.add(new Figura(e.getX(), e.getY(), grosor, colorSeleccionado, herramientas.getSelectedIndex()));
+ 	    	figuras.add(new Figura(e.getX(), e.getY(), grosor, colorSeleccionado, herramientas.getSelectedIndex(), Integer.parseInt(fieldSizeFiguras.getText()), relleno));
  	    	puntos.clear();
  	    }
  	    else if (herramientas.getSelectedIndex() == 3) {
-		    	triangulos.add(new Triangulo(e.getX(), e.getY(), e.getX()+50, e.getY()+70, e.getX()-50, e.getY()+70,
-		    			grosor, colorSeleccionado, 1));
+		    	triangulos.add(new Triangulo(e.getX(), e.getY(), e.getX()+tamaño, e.getY()+tamaño*2, e.getX()-tamaño, e.getY()+tamaño*2,
+		    			grosor, colorSeleccionado, 1, relleno));
 		    	puntos.clear();
  		}
  	    else if (herramientas.getSelectedIndex() == 4) {
@@ -424,29 +521,23 @@ public class Paint implements MouseListener, MouseMotionListener {
  		    
  		    Graphics2D g2 = (Graphics2D) g;
  		    
- 		// Dibujar los trazos anteriores con su color original
-	 		    for (Trazo trazo : listaDeTrazos) { // Este for recorre los trazos guardados en listaDePuntos
-	 		        g2.setColor(trazo.color); // Le asigna el color que tiene guardado como clase
-	 		        g2.setStroke(new BasicStroke(trazo.grosor)); // Lo mismo con el grosor
-	 		        List<Point> puntos = trazo.puntos; // Crear una nueva lista tipo Point (la clase custom) para guardar el arreglo de puntos de la variable tipo Trazo
-	 		        if (puntos.size() > 1) { // Evalúar si hay más de un punto para pintar en el arreglo de Point's creado anteriormente
-	 		            for (int i = 1; i < puntos.size(); i++) {
-	 		                Point p1 = puntos.get(i - 1);
-	 		                Point p2 = puntos.get(i);
-	 		                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
-	 		            }
-	 		        }
-	 		    }
-	 		    
 	 		    for (Figura figura : figuras) {
 	 		    	g2.setColor(figura.color);
 	 		    	g2.setStroke(new BasicStroke(figura.grosor));
 	 		    	System.out.println(figura.tipo);
 	 		    	if (figuras.size() > 0) {
-	 		    		if (figura.tipo == 1)
-	 		    			g2.drawRect(figura.x-25, figura.y-25, 50, 50);
-	 		    		else if (figura.tipo == 2)
-	 		    			g2.drawOval(figura.x-25, figura.y-25, 50, 50);
+	 		    		if (figura.tipo == 1) {
+	 		    			if (!figura.relleno)
+	 		    				g2.drawRect(figura.x-(figura.tamaño/2), figura.y-(figura.tamaño/2), figura.tamaño, figura.tamaño);
+	 		    			else
+	 		    				g2.fillRect(figura.x-(figura.tamaño/2), figura.y-(figura.tamaño/2), figura.tamaño, figura.tamaño);
+	 		    		}
+	 		    		else if (figura.tipo == 2) {
+	 		    			if (!figura.relleno)
+	 		    				g2.drawOval(figura.x-(figura.tamaño/2), figura.y-(figura.tamaño/2), figura.tamaño, figura.tamaño);
+	 		    			else
+	 		    				g2.fillOval(figura.x-(figura.tamaño/2), figura.y-(figura.tamaño/2), figura.tamaño, figura.tamaño);
+	 		    		}
 	 		    	}
 	 		    }
 	 		    
@@ -461,11 +552,28 @@ public class Paint implements MouseListener, MouseMotionListener {
 	 		    for (Triangulo triangulo : triangulos) {
 	 		    	g2.setColor(triangulo.color);
 	 		    	g2.setStroke(new BasicStroke(triangulo.grosor));
-	 		    	int xs[] = {triangulo.x, triangulo.x2, triangulo.x3};
-	 		    	int ys[] = {triangulo.y, triangulo.y2, triangulo.y3};
+	 		    	int xs[] = {triangulo.x, triangulo.x2+triangulo.tamaño, triangulo.x3-triangulo.tamaño};
+	 		    	int ys[] = {triangulo.y, triangulo.y2+triangulo.tamaño*2, triangulo.y2+triangulo.tamaño*2};
 	 		    	if (triangulos.size() > 0) {
-	 		    		g2.drawPolygon(xs, ys, 3);
+	 		    		if (!triangulo.relleno)
+	 		    			g2.drawPolygon(xs, ys, 3);
+	 		    		else
+	 		    			g2.fillPolygon(xs, ys, 3);
 	 		    	}
+	 		    }
+	 		    
+	 		    // Dibujar los trazos anteriores con su color original
+	 		    for (Trazo trazo : listaDeTrazos) { // Este for recorre los trazos guardados en listaDePuntos
+	 		        g2.setColor(trazo.color); // Le asigna el color que tiene guardado como clase
+	 		        g2.setStroke(new BasicStroke(trazo.grosor)); // Lo mismo con el grosor
+	 		        List<Point> puntos = trazo.puntos; // Crear una nueva lista tipo Point (la clase custom) para guardar el arreglo de puntos de la variable tipo Trazo
+	 		        if (puntos.size() > 1) { // Evalúar si hay más de un punto para pintar en el arreglo de Point's creado anteriormente
+	 		            for (int i = 1; i < puntos.size(); i++) {
+	 		                Point p1 = puntos.get(i - 1);
+	 		                Point p2 = puntos.get(i);
+	 		                g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+	 		            }
+	 		        }
 	 		    }
 	 		
 	 		if (borrador == true) {
@@ -499,7 +607,11 @@ public class Paint implements MouseListener, MouseMotionListener {
 		 	 			g2.setColor(colorSeleccionado);
 		 	 		    g2.setStroke(new BasicStroke(grosor));
 		 	 		    p1 = puntos.getLast();
-		 	 		    g2.drawRect(p1.x-25, p1.y-25, 50, 50);
+		 	 		    if (!relleno)
+		 	 		    	g2.drawRect(p1.x-tamaño/2, p1.y-tamaño/2, tamaño, tamaño);
+		 	 		    else
+		 	 		    	g2.fillRect(p1.x-tamaño/2, p1.y-tamaño/2, tamaño, tamaño);
+
 	 	 			}
 	 	 		        
 	 	 		break;
@@ -509,7 +621,11 @@ public class Paint implements MouseListener, MouseMotionListener {
 		 	 			g2.setColor(colorSeleccionado);
 		 	 		    g2.setStroke(new BasicStroke(grosor));
 	 		           	p1 = puntos.getLast();
-	 		            g2.drawOval(p1.x-25, p1.y-25, 50, 50);
+		 	 		    if (!relleno)
+		 	 		    	g2.drawOval(p1.x-tamaño/2, p1.y-tamaño/2, tamaño, tamaño);
+		 	 		    else
+		 	 		    	g2.fillOval(p1.x-tamaño/2, p1.y-tamaño/2, tamaño, tamaño);
+
 	 	 			}
 	 	 		break;
 	 	 		
@@ -518,9 +634,13 @@ public class Paint implements MouseListener, MouseMotionListener {
 		 	 			g2.setColor(colorSeleccionado);
 		 	 		    g2.setStroke(new BasicStroke(grosor)); 
 		 	 		    		p1 = puntos.getLast();
-		 	 		    		int xs[] = {p1.x, p1.x+50, p1.x-50};
-		 		 		    	int ys[] = {p1.y, p1.y+70, p1.y+70};
-		 	 		    		g2.drawPolygon(xs, ys, 3);
+		 	 		    		int xs[] = {p1.x, p1.x+tamaño, p1.x-tamaño};
+		 		 		    	int ys[] = {p1.y, p1.y+tamaño*2, p1.y+tamaño*2};
+				 	 		    if (!relleno)
+				 	 		    	g2.drawPolygon(xs, ys, 3);
+				 	 		    else
+				 	 		    	g2.fillPolygon(xs, ys, 3);
+
 	 	 			}
 	 	 		break;
 	 	 		
@@ -538,5 +658,4 @@ public class Paint implements MouseListener, MouseMotionListener {
 
  		
  	}
-
 }
