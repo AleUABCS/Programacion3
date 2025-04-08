@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+
 import javax.swing.Timer;
 
 import javax.swing.JFrame;
@@ -21,10 +23,10 @@ public class KeyJuego implements KeyListener {
 
 	PaintPanel panel_Centro;
 	private JFrame frame;
-	private int x = 200;
-	private int y = 200;
 	int segundos = 0;
 	Timer timer;
+	Player player;
+	ArrayList<Player> paredes = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -53,6 +55,7 @@ public class KeyJuego implements KeyListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		player = new Player(200, 200, 30, 30, Color.decode("#1ed760"));
 		frame = new JFrame();
 		frame.setAutoRequestFocus(false);
 		frame.setBounds(100, 100, 505, 650);
@@ -100,14 +103,22 @@ public class KeyJuego implements KeyListener {
 				panel_Centro.requestFocus();
 				segundos = 0;
 				labelTimer.setText("00:00");
-				x = 200;
-				y = 200;
+				player.x = 200;
+				player.y = 200;
 				panel_Centro.repaint();
 			}
 		});
 		panel_South.add(botonReiniciar);
 		
-		
+	}
+	
+	public boolean canMove () {
+		boolean canMove = true;
+		for (Player pared : paredes) {
+			if (player.colision(pared))
+				canMove = false;
+		}
+		return canMove;
 	}
 	
 		class PaintPanel extends JPanel{
@@ -125,9 +136,16 @@ public class KeyJuego implements KeyListener {
 		 		    
 		 		    Graphics2D g2 = (Graphics2D) g;
 		 		    
-		 		    g2.setColor(Color.decode("#1ed760"));
-		 		    g2.fillRect(x, y, 30, 30);
+		 		    g2.setColor(player.color);
+		 		    g2.fillRect(player.x, player.y, player.w, player.h);
 		 		    
+		 		    paredes.add(new Player(150,150,100,20,Color.PINK));
+		 		    paredes.add(new Player(150, 300, 50, 20, Color.CYAN));
+		 		    
+		 		    for (Player pared : paredes) {
+		 		    	g2.setColor(pared.color);
+			 		    g2.fillRect(pared.x, pared.y, pared.w, pared.h);
+					}
 		 		}
 		 		
 		}
@@ -145,32 +163,43 @@ public class KeyJuego implements KeyListener {
 		if (segundos == 0)
 			timer.start();
 		
-		if (e.getKeyCode() == 87) { // W
-			System.out.println(e);
-			y -= 5;
-			if (y < -25)
-				y = panel_Centro.getHeight() - 5;
-		}
-		else if (e.getKeyCode() == 65) { // A
-			System.out.println(e);
-			x -= 5;
-			if (x < -25)
-				x = panel_Centro.getWidth() - 5;
-		}
-		else if (e.getKeyCode() == 83) { // S
-			System.out.println(e);
-			y += 5;
-			if (y > panel_Centro.getHeight() - 5)
-				y = -25;
-		}
-		else if (e.getKeyCode() == 68) { // D
-			System.out.println(e);
-			x += 5;
-			if (x > panel_Centro.getWidth() - 5)
-				x = -25;
-		}
+			if (e.getKeyCode() == 87) { // W
+				if (canMove())
+					player.y -= 5;
+				else
+					player.y += 5;
+				
+				if (player.y < -25)
+					player.y = panel_Centro.getHeight() - 5;
+			}
+			else if (e.getKeyCode() == 65) { // A
+				if (canMove())
+					player.x -= 5;
+				else
+					player.x += 5;
+				
+				if (player.x < -25)
+					player.x = panel_Centro.getWidth() - 5;
+			}
+			else if (e.getKeyCode() == 83) { // S
+				if (canMove())
+					player.y += 5;
+				else
+					player.y -= 5;
+				
+				if (player.y > panel_Centro.getHeight() - 5)
+					player.y = -25;
+			}
+			else if (e.getKeyCode() == 68) { // D
+				if (canMove())
+					player.x += 5;
+				else
+					player.x -= 5;
+				
+				if (player.x > panel_Centro.getWidth() - 5)
+					player.x = -25;
+			}
 		panel_Centro.repaint();
-		// w 87, a 65, s 83, d 68
 		
 	}
 
@@ -179,4 +208,28 @@ public class KeyJuego implements KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
+}
+
+class Player {
+	int x, y, w, h;
+	Color color;
+
+	public Player(int x, int y, int w, int h, Color color) {
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
+		this.color = color;
+	}
+	
+	public boolean colision (Player body) {
+		if (x < body.x + body.w &&
+			x + w > body.x &&
+			y < body.y + body.h &&
+			y + h > body.y)
+			return true; // Sí hay colisión
+		else
+			return false;
+	}
+	
 }
