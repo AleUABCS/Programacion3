@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.Timer;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
@@ -22,6 +23,8 @@ public class KeyJuego implements KeyListener {
 	private JFrame frame;
 	private int x = 200;
 	private int y = 200;
+	int segundos = 0;
+	Timer timer;
 
 	/**
 	 * Launch the application.
@@ -60,8 +63,21 @@ public class KeyJuego implements KeyListener {
 		frame.getContentPane().add(panel_North, BorderLayout.NORTH);
 		
 		JLabel labelTimer = new JLabel("00:00");
-		labelTimer.setFont(new Font("Consolas", Font.PLAIN, 16));
+		labelTimer.setFont(new Font("Consolas", Font.PLAIN, 26));
 		panel_North.add(labelTimer);
+		
+		ActionListener refresh = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int segundosLabel = segundos%60;
+				int minutos = segundos/60;
+				String tiempo = String.format("%02d:%02d", minutos, segundosLabel);
+				segundos++;
+				labelTimer.setText(tiempo);
+			}
+		};
+		timer = new Timer (1000, refresh);
 		
 		panel_Centro = new PaintPanel();
 		frame.getContentPane().add(panel_Centro, BorderLayout.CENTER);
@@ -74,7 +90,7 @@ public class KeyJuego implements KeyListener {
 		frame.getContentPane().add(panel_South, BorderLayout.SOUTH);
 		
 		JButton botonReiniciar = new JButton("Reiniciar");
-		botonReiniciar.setFont(new Font("Consolas", Font.PLAIN, 16));
+		botonReiniciar.setFont(new Font("Consolas", Font.PLAIN, 24));
 		botonReiniciar.setBackground(Color.WHITE);
 		botonReiniciar.addActionListener(new ActionListener() {
 			
@@ -82,9 +98,16 @@ public class KeyJuego implements KeyListener {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				panel_Centro.requestFocus();
+				segundos = 0;
+				labelTimer.setText("00:00");
+				x = 200;
+				y = 200;
+				panel_Centro.repaint();
 			}
 		});
 		panel_South.add(botonReiniciar);
+		
+		
 	}
 	
 		class PaintPanel extends JPanel{
@@ -119,6 +142,8 @@ public class KeyJuego implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		if (segundos == 0)
+			timer.start();
 		
 		if (e.getKeyCode() == 87) { // W
 			System.out.println(e);

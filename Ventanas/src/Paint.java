@@ -222,7 +222,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 		panel.add(lblNewLabel);
 		
 		JButton botonMenosFiguras = new JButton("-");
-		botonMenosFiguras.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		botonMenosFiguras.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		botonMenosFiguras.setBackground(new Color(255, 255, 255));
 		botonMenosFiguras.setVisible(false);
 		botonMenosFiguras.addActionListener(new ActionListener() {
@@ -243,7 +243,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 		fieldSizeFiguras.setColumns(10);
 		
 		JButton botonMasFiguras = new JButton("+");
-		botonMasFiguras.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		botonMasFiguras.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		botonMasFiguras.setBackground(new Color(255, 255, 255));
 		botonMasFiguras.setVisible(false);
 		botonMasFiguras.addActionListener(new ActionListener() {
@@ -257,7 +257,7 @@ public class Paint implements MouseListener, MouseMotionListener {
 		panel.add(botonMasFiguras);
 		
 		JButton botonRelleno = new JButton("R");
-		botonRelleno.setFont(new Font("Tahoma", Font.BOLD, 9));
+		botonRelleno.setFont(new Font("Tahoma", Font.BOLD, 8));
 		botonRelleno.setBackground(new Color(255, 255, 255));
 		botonRelleno.setVisible(false);
 		botonRelleno.addActionListener(new ActionListener() {
