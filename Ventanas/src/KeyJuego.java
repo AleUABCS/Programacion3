@@ -27,7 +27,11 @@ public class KeyJuego implements KeyListener {
 	int segundos = 0;
 	Timer timer;
 	Player player;
+	Player shadow;
 	ArrayList<Player> paredes = new ArrayList<>();
+	boolean move;
+	int dir = 0;
+	Timer timerMovement;
 
 	/**
 	 * Launch the application.
@@ -57,12 +61,12 @@ public class KeyJuego implements KeyListener {
 	 */
 	private void initialize() {
 		player = new Player(200, 200, 30, 30, Color.decode("#1ed760"));
+		shadow = new Player(200,200, 30, 30, null);
 		frame = new JFrame();
 		frame.setAutoRequestFocus(false);
 		frame.setBounds(100, 100, 505, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
-		
 		JPanel panel_North = new JPanel();
 		frame.getContentPane().add(panel_North, BorderLayout.NORTH);
 		
@@ -111,7 +115,17 @@ public class KeyJuego implements KeyListener {
 		});
 		panel_South.add(botonReiniciar);
 		
-	}
+		ActionListener refreshMovement = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				movement();
+				frame.repaint();
+			}
+		};
+		timerMovement = new Timer(5, refreshMovement);
+		timerMovement.start();
+		}
 	
 	public boolean canMove () {
 		boolean canMove = true;
@@ -140,8 +154,8 @@ public class KeyJuego implements KeyListener {
 		 		    g2.setColor(player.color);
 		 		    g2.fillRect(player.x, player.y, player.w, player.h);
 		 		    
-		 		    paredes.add(new Player(150,150,100,20,Color.PINK));
-		 		    paredes.add(new Player(150, 300, 50, 20, Color.CYAN));
+		 		    paredes.add(new Player(150,150,100,25,Color.PINK));
+		 		    paredes.add(new Player(150, 300, 50, 25, Color.CYAN));
 		 		    
 		 		    for (Player pared : paredes) {
 		 		    	g2.setColor(pared.color);
@@ -161,53 +175,69 @@ public class KeyJuego implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (segundos == 0)
-			timer.start();
+		timer.start();
 		
 			if (e.getKeyCode() == 87) { // W
-				if (canMove())
-					player.y -= 5;
-				else
-					player.y += 5;
-				
+				dir = 1;
 				if (player.y < -25)
 					player.y = panel_Centro.getHeight() - 5;
 			}
 			else if (e.getKeyCode() == 65) { // A
-				if (canMove())
-					player.x -= 5;
-				else
-					player.x += 5;
-				
+				dir = 2;
 				if (player.x < -25)
 					player.x = panel_Centro.getWidth() - 5;
 			}
 			else if (e.getKeyCode() == 83) { // S
-				if (canMove())
-					player.y += 5;
-				else
-					player.y -= 5;
-				
+				dir = 3;
 				if (player.y > panel_Centro.getHeight() - 5)
 					player.y = -25;
 			}
 			else if (e.getKeyCode() == 68) { // D
-				if (canMove())
-					player.x += 5;
-				else
-					player.x -= 5;
-				
+				dir = 4;
 				if (player.x > panel_Centro.getWidth() - 5)
 					player.x = -25;
 			}
-		panel_Centro.repaint();
-		
+			else
+				dir = 0;
+			
+			panel_Centro.repaint();
+				
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void movement () {
+		if (dir == 1)      // W
+			player.y -= 5;
+		else if (dir == 2) // A
+			player.x -= 5;
+		else if (dir == 3) // S
+			player.y += 5;
+		else if (dir == 4) // D
+			player.x += 5;
+		
+		move = canMove();
+		if (move) {
+			shadow.x = player.x;
+			shadow.y = player.y;
+		}
+		else {
+			player.x = shadow.x;
+			player.y = shadow.y;
+		}
+		
+		if (player.y < -25)
+			player.y = panel_Centro.getHeight() - 5;
+		if (player.x < -25)
+			player.x = panel_Centro.getWidth() - 5;
+		if (player.y > panel_Centro.getHeight() - 5)
+			player.y = -25;
+		if (player.x > panel_Centro.getWidth() - 5)
+			player.x = -25;
 	}
 }
 
