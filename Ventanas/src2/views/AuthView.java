@@ -26,10 +26,20 @@ import javax.swing.border.LineBorder;
 public class AuthView extends JFrame {
 	
 	private JTextField email;
-	private JButton boton = new JButton();
+	private JButton boton;
 	private JTextField password;
 	private JPanel panel;
 	private JLabel mensajeError = new JLabel("Contraseña o correo incorrectos");
+	private JButton botonLogin = new JButton("Volver");
+	private JButton botonRegistro = new JButton("Crear cuenta");
+	private JTextField nombre = new JTextField("   Nombre de usuario");
+	private JTextArea bio = new JTextArea("\n   Descripción / Bio");
+	private JComboBox<String> ComboBoxColonias = new JComboBox<String>();
+	private JButton botonFinRegistro = new JButton();
+	private JCheckBox salado = new JCheckBox("Salado");
+	private JCheckBox dulce = new JCheckBox("Dulce");
+	private JCheckBox saludable = new JCheckBox("Saludable");
+
 
 	public AuthView() {
 		login();
@@ -274,7 +284,6 @@ public class AuthView extends JFrame {
 		setIconImage(iconoVentana.getImage());
 
 		// Botón Registro
-		JButton botonRegistro = new JButton("Crear cuenta");
 		botonRegistro.addActionListener(new ActionListener() {
 
 			@Override
@@ -314,7 +323,6 @@ public class AuthView extends JFrame {
 		etiqueta.setFont(new Font("Calibri", Font.PLAIN, 40));
 
 		// TextField para nombre
-		JTextField nombre = new JTextField("   Nombre de usuario");
 		nombre.setFont(new Font("Calibri", Font.BOLD, 22));
 		nombre.setForeground(Color.GRAY.brighter());
 		nombre.setBounds(25, 130, 400, 60);
@@ -323,7 +331,6 @@ public class AuthView extends JFrame {
 		nombre.repaint();
 
 		// TextArea para Biografía
-		JTextArea bio = new JTextArea("\n   Descripción / Bio");
 		bio.setFont(new Font("Calibri", Font.BOLD, 22));
 		bio.setForeground(Color.GRAY.brighter());
 		bio.setBounds(25, 210, 400, 100);
@@ -332,20 +339,19 @@ public class AuthView extends JFrame {
 		bio.repaint();
 
 		// Botón
-		JButton boton = new JButton();
-		boton.setText("Crear cuenta");
-		boton.setFont(new Font("Calibri", Font.PLAIN, 28));
-		boton.setBounds(25, 440, 400, 50);
-		boton.setBackground(Color.decode("#e8d8ff"));
-		boton.setBorderPainted(false);
+		botonFinRegistro.setText("Crear cuenta");
+		botonFinRegistro.setFont(new Font("Calibri", Font.PLAIN, 28));
+		botonFinRegistro.setBounds(25, 440, 400, 50);
+		botonFinRegistro.setBackground(Color.decode("#e8d8ff"));
+		botonFinRegistro.setBorderPainted(false);
 		JLabel profBoton = new JLabel();
 		profBoton.setBounds(27, 443, 400, 50);
 		profBoton.setBackground(Color.decode("#cfb1ff"));
 		profBoton.setOpaque(true);
-		panel.add(boton);
+		panel.add(botonFinRegistro);
 		panel.add(profBoton);
 		profBoton.repaint();
-		boton.repaint();
+		botonFinRegistro.repaint();
 
 		// RadioButtons términos
 		JRadioButton acepto = new JRadioButton("Acepto");
@@ -384,7 +390,6 @@ public class AuthView extends JFrame {
 		panel.add(pref);
 		pref.repaint();
 
-		JCheckBox salado = new JCheckBox("Salado");
 		salado.setBounds(150, 360, 80, 20);
 		salado.setFont(new Font("Calibri", Font.BOLD, 18));
 		salado.setForeground(Color.GRAY);
@@ -392,15 +397,13 @@ public class AuthView extends JFrame {
 		panel.add(salado);
 		salado.repaint();
 
-		JCheckBox dulce = new JCheckBox("Dulce");
 		dulce.setBounds(240, 360, 70, 20);
 		dulce.setFont(new Font("Calibri", Font.BOLD, 18));
 		dulce.setForeground(Color.GRAY);
 		dulce.setOpaque(false);
 		panel.add(dulce);
 		dulce.repaint();
-
-		JCheckBox saludable = new JCheckBox("Saludable");
+		
 		saludable.setBounds(324, 360, 100, 20);
 		saludable.setFont(new Font("Calibri", Font.BOLD, 18));
 		saludable.setForeground(Color.GRAY);
@@ -408,7 +411,6 @@ public class AuthView extends JFrame {
 		panel.add(saludable);
 		saludable.repaint();
 
-		JComboBox<String> ComboBoxColonias = new JComboBox<String>();
 		ComboBoxColonias.addItem("Miramar");
 		ComboBoxColonias.addItem("Santa Fé");
 		ComboBoxColonias.addItem("Camino real");
@@ -448,8 +450,6 @@ public class AuthView extends JFrame {
 
 		});
 
-		JButton botonLogin = new JButton("Volver");
-
 		botonLogin.addActionListener(new ActionListener() {
 
 			@Override
@@ -464,7 +464,6 @@ public class AuthView extends JFrame {
 		repaint();
 
 		return this;
-
 	}
 
 	public JFrame recuperar() {
@@ -581,6 +580,46 @@ public class AuthView extends JFrame {
 
 	public JPanel getPanel() {
 		return panel;
+	}
+
+	public JLabel getMensajeError() {
+		return mensajeError;
+	}
+
+	public JButton getBotonLogin() {
+		return botonLogin;
+	}
+
+	public JButton getBotonRegistro() {
+		return botonRegistro;
+	}
+
+	public JTextField getNombre() {
+		return nombre;
+	}
+
+	public JTextArea getBio() {
+		return bio;
+	}
+
+	public JComboBox<String> getComboBoxColonias() {
+		return ComboBoxColonias;
+	}
+
+	public JButton getBotonFinRegistro() {
+		return botonFinRegistro;
+	}
+
+	public JCheckBox getSalado() {
+		return salado;
+	}
+
+	public JCheckBox getDulce() {
+		return dulce;
+	}
+
+	public JCheckBox getSaludable() {
+		return saludable;
 	}
 	
 }
