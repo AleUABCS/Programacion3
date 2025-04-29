@@ -2,8 +2,12 @@ package controlers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 import models.AuthModel;
 import views.AuthView;
@@ -12,6 +16,7 @@ public class AuthController {
 	
 	public AuthController (AuthView view, AuthModel model) {
 		
+		//Añadir acción al botón "Acceder" del login
 		view.getBoton().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -31,20 +36,17 @@ public class AuthController {
 			}
 		});
 		
-		view.getBotonLogin().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				view.cambiar(2); // Login
-			}
-		});
-		
+		// Botón Registro
 		view.getBotonRegistro().addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.cambiar(1); // Login
+				view.cambiar(1); // Registro
 			}
 		});
 		
+		//Acción boton registro: imprimir información en consola
+		/*
 		view.getBotonFinRegistro().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -57,7 +59,35 @@ public class AuthController {
 				model.register(user, bio, prefSalado, prefDulce, prefSaludable, colonia);
 			}
 		});
+		*/
+		
+		// Botón registro: mandar información de los campos y verificar en el modelo para guardar en UsuariosRegistro.txt
+		view.getRegistrar().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String nombres = view.getTextFieldNombres().getText();
+				String apellidos = view.getTextFieldApellidos().getText();
+				String empresa = view.getTextFieldEmpresa().getText();
+				String ambito = view.getAmbitoEmpresa().getSelectedItem().toString();
+				String cargo = view.getTextFieldCargo().getText();
+				String nombreUsuario = view.getTextFieldNombreUsuario().getText();
+				String contraseña = view.getTextFieldContraseña().getText();
+				String repetirContraseña = view.getTextFieldRepetirContraseña().getText();
+				String correo = view.getTextFieldCorreo().getText();
+				
+				try {
+					model.registerUser(nombres, apellidos, empresa, ambito, cargo, nombreUsuario, contraseña, repetirContraseña, correo);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+				
+		});
 		
 	}
+		
 	
 }

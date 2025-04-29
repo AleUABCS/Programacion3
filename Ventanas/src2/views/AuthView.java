@@ -1,12 +1,11 @@
 package views;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,9 +17,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class AuthView extends JFrame {
@@ -39,6 +38,17 @@ public class AuthView extends JFrame {
 	private JCheckBox salado = new JCheckBox("Salado");
 	private JCheckBox dulce = new JCheckBox("Dulce");
 	private JCheckBox saludable = new JCheckBox("Saludable");
+	
+	JTextField textFieldNombres;
+	JTextField textFieldApellidos;
+	JTextField textFieldEmpresa;
+	JTextField textFieldCargo;
+	JTextField textFieldNombreUsuario;
+	JTextField textFieldContraseña;
+	JTextField textFieldRepetirContraseña;
+	JTextField textFieldCorreo;
+	JButton registrar = new JButton ("Registrar");
+	JComboBox ambitoEmpresa;
 
 
 	public AuthView() {
@@ -241,56 +251,8 @@ public class AuthView extends JFrame {
 
 		// Aciones del menú
 
-		// Menú Cuenta
-		// Acción opción Registro
-		cuenta_registro.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar(1);
-			}
-		});
-
-		// Acción opción Login
-		cuenta_login.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar(2);
-			}
-		});
-
-		// Ación opción Recuperar cuenta
-		cuenta_recuperar.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar(3); // Recuperar cuenta
-			}
-		});
-
-		// Menu Usuario
-
-		// Acción Alta
-		usuarios_alta.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar(4);
-			}
-		});
-
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
-
-		// Botón Registro
-		botonRegistro.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar(1); // Registro
-			}
-		});
 
 		panel.add(botonRegistro);
 		botonRegistro.setBounds(305, 440, 120, 30);
@@ -301,167 +263,102 @@ public class AuthView extends JFrame {
 	public JFrame registro() {
 
 		setTitle("Registrarse");
-		setLayout(null);
 		setVisible(true);
-		setSize(500, 650);
+		setLayout(new BorderLayout());
+		setSize(500, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.decode("#e8d8fd"));
-
-		// Panel
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(17, 15, 450, 550);
-		panel.setLayout(null);
-		add(panel);
-
-		// Etiqueta "Registrarse"
-		JLabel etiqueta = new JLabel();
-		etiqueta.setText("Registrarse");
-		panel.add(etiqueta);
-		etiqueta.setBounds(130, 45, 300, 50);
-		etiqueta.setFont(new Font("Calibri", Font.PLAIN, 40));
-
-		// TextField para nombre
-		nombre.setFont(new Font("Calibri", Font.BOLD, 22));
-		nombre.setForeground(Color.GRAY.brighter());
-		nombre.setBounds(25, 130, 400, 60);
-		nombre.setBorder(new LineBorder(Color.GRAY.brighter(), 1));
-		panel.add(nombre);
-		nombre.repaint();
-
-		// TextArea para Biografía
-		bio.setFont(new Font("Calibri", Font.BOLD, 22));
-		bio.setForeground(Color.GRAY.brighter());
-		bio.setBounds(25, 210, 400, 100);
-		bio.setBorder(new LineBorder(Color.GRAY.brighter(), 1));
-		panel.add(bio);
-		bio.repaint();
-
-		// Botón
-		botonFinRegistro.setText("Crear cuenta");
-		botonFinRegistro.setFont(new Font("Calibri", Font.PLAIN, 28));
-		botonFinRegistro.setBounds(25, 440, 400, 50);
-		botonFinRegistro.setBackground(Color.decode("#e8d8ff"));
-		botonFinRegistro.setBorderPainted(false);
-		JLabel profBoton = new JLabel();
-		profBoton.setBounds(27, 443, 400, 50);
-		profBoton.setBackground(Color.decode("#cfb1ff"));
-		profBoton.setOpaque(true);
-		panel.add(botonFinRegistro);
-		panel.add(profBoton);
-		profBoton.repaint();
-		botonFinRegistro.repaint();
-
-		// RadioButtons términos
-		JRadioButton acepto = new JRadioButton("Acepto");
-		acepto.setBounds(230, 320, 100, 20);
-		acepto.setFont(new Font("Calibri", Font.BOLD, 18));
-		acepto.setForeground(Color.GRAY);
-		acepto.setOpaque(false);
-		panel.add(acepto);
-		acepto.repaint();
-
-		JRadioButton noAcepto = new JRadioButton("No acepto");
-		noAcepto.setBounds(324, 320, 150, 20);
-		noAcepto.setFont(new Font("Calibri", Font.BOLD, 18));
-		noAcepto.setForeground(Color.GRAY);
-		noAcepto.setOpaque(false);
-		panel.add(noAcepto);
-		noAcepto.repaint();
-
-		// Crear grupo para los dos botones
-		ButtonGroup terminos = new ButtonGroup();
-		terminos.add(acepto);
-		terminos.add(noAcepto);
-
-		JLabel lTerminos = new JLabel("Aceptar términos: ");
-		lTerminos.setFont(new Font("Calibri", Font.BOLD, 18));
-		lTerminos.setBounds(30, 320, 200, 20);
-		lTerminos.setForeground(Color.GRAY);
-		panel.add(lTerminos);
-		lTerminos.repaint();
-
-		// Preferencias
-		JLabel pref = new JLabel("Preferencias: ");
-		pref.setFont(new Font("Calibri", Font.BOLD, 18));
-		pref.setForeground(Color.GRAY);
-		pref.setBounds(30, 360, 150, 20);
-		panel.add(pref);
-		pref.repaint();
-
-		salado.setBounds(150, 360, 80, 20);
-		salado.setFont(new Font("Calibri", Font.BOLD, 18));
-		salado.setForeground(Color.GRAY);
-		salado.setOpaque(false);
-		panel.add(salado);
-		salado.repaint();
-
-		dulce.setBounds(240, 360, 70, 20);
-		dulce.setFont(new Font("Calibri", Font.BOLD, 18));
-		dulce.setForeground(Color.GRAY);
-		dulce.setOpaque(false);
-		panel.add(dulce);
-		dulce.repaint();
 		
-		saludable.setBounds(324, 360, 100, 20);
-		saludable.setFont(new Font("Calibri", Font.BOLD, 18));
-		saludable.setForeground(Color.GRAY);
-		saludable.setOpaque(false);
-		panel.add(saludable);
-		saludable.repaint();
+		JPanel panel = new JPanel();
+		panel.setBorder(new EmptyBorder(10, 30, 30, 30));
+		add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(9, 2, 0, 5));
+		
+		JLabel labelNombres = new JLabel("Nombres");
+		panel.add(labelNombres);
+		
+		textFieldNombres = new JTextField();
+		panel.add(textFieldNombres);
+		textFieldNombres.setColumns(10);
+		
+		JLabel labelApellidos = new JLabel("Apellidos");
+		panel.add(labelApellidos);
+		
+		textFieldApellidos = new JTextField();
+		panel.add(textFieldApellidos);
+		textFieldApellidos.setColumns(10);
+		
+		JLabel labelEmpresa = new JLabel("Empresa");
+		panel.add(labelEmpresa);
+		
+		textFieldEmpresa = new JTextField();
+		panel.add(textFieldEmpresa);
+		textFieldEmpresa.setColumns(10);
+		
+		JLabel labelAmbitoEmpresa = new JLabel("Ambito de la empresa");
+		panel.add(labelAmbitoEmpresa);
+		
+		ambitoEmpresa = new JComboBox();
+		ambitoEmpresa.setBackground(Color.WHITE);
+		ambitoEmpresa.addItem("Tecnología");
+		ambitoEmpresa.addItem("Salud");
+		ambitoEmpresa.addItem("Educación");
+		ambitoEmpresa.addItem("Comercio");
+		ambitoEmpresa.addItem("Otro");
 
-		ComboBoxColonias.addItem("Miramar");
-		ComboBoxColonias.addItem("Santa Fé");
-		ComboBoxColonias.addItem("Camino real");
-		ComboBoxColonias.addItem("Pedregal");
-		ComboBoxColonias.setBounds(70, 400, 300, 20);
-		ComboBoxColonias.setBackground(Color.WHITE);
-		panel.add(ComboBoxColonias);
-		ComboBoxColonias.repaint();
-
-		boton.addActionListener(new ActionListener() {
-
-			LineBorder bordeRojo = new LineBorder(Color.RED, 2);
-			LineBorder bordeVerde = new LineBorder(Color.GREEN, 2);
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!nombre.getText().equals(""))
-					nombre.setBorder(bordeVerde);
-				else
-					nombre.setBorder(bordeRojo);
-
-				if (!bio.getText().equals(""))
-					bio.setBorder(bordeVerde);
-				else
-					bio.setBorder(bordeRojo);
-
-				if (!nombre.getText().equals(""))
-					nombre.setBorder(bordeVerde);
-				else
-					nombre.setBorder(bordeRojo);
-
-				if (!acepto.isSelected()) {
-					acepto.setBorder(bordeVerde);
-				}
-
-			}
-
-		});
-
-		botonLogin.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cambiar(2); // Login
-
-			}
-		});
-		botonLogin.setBounds(325, 500, 100, 30);
-		panel.add(botonLogin);
-
+		panel.add(ambitoEmpresa);
+		
+		JLabel labelCargo = new JLabel("Cargo");
+		panel.add(labelCargo);
+		
+		textFieldCargo = new JTextField();
+		panel.add(textFieldCargo);
+		textFieldCargo.setColumns(10);
+		
+		JLabel labelNombreUsuario = new JLabel("Nombre de usuario");
+		panel.add(labelNombreUsuario);
+		
+		textFieldNombreUsuario = new JTextField();
+		panel.add(textFieldNombreUsuario);
+		textFieldNombreUsuario.setColumns(10);
+		
+		JLabel labelContraseña = new JLabel("Contraseña");
+		panel.add(labelContraseña);
+		
+		textFieldContraseña = new JTextField();
+		panel.add(textFieldContraseña);
+		textFieldContraseña.setColumns(10);
+		
+		JLabel labelRepetirContraseña = new JLabel("Repetir contraseña");
+		panel.add(labelRepetirContraseña);
+		
+		textFieldRepetirContraseña = new JTextField();
+		panel.add(textFieldRepetirContraseña);
+		textFieldRepetirContraseña.setColumns(10);
+		
+		JLabel labelCorreo = new JLabel("Coreo electrónico");
+		panel.add(labelCorreo);
+		
+		textFieldCorreo = new JTextField();
+		panel.add(textFieldCorreo);
+		textFieldCorreo.setColumns(10);
+		
+		JPanel panelBoton = new JPanel();
+		panelBoton.setLayout(new GridLayout(1, 3));
+		panelBoton.setBorder(new EmptyBorder(0,20,20,20));
+		
+		panelBoton.add(new JLabel());
+		
+		registrar.setBackground(Color.WHITE);
+		panelBoton.add(registrar);
+		
+		panelBoton.add(new JLabel());
+		
+		add(panelBoton, BorderLayout.SOUTH);
+		
 		repaint();
+		revalidate();
 
 		return this;
 	}
@@ -620,6 +517,46 @@ public class AuthView extends JFrame {
 
 	public JCheckBox getSaludable() {
 		return saludable;
+	}
+
+	public JTextField getTextFieldNombres() {
+		return textFieldNombres;
+	}
+
+	public JTextField getTextFieldApellidos() {
+		return textFieldApellidos;
+	}
+
+	public JTextField getTextFieldEmpresa() {
+		return textFieldEmpresa;
+	}
+
+	public JTextField getTextFieldCargo() {
+		return textFieldCargo;
+	}
+
+	public JTextField getTextFieldNombreUsuario() {
+		return textFieldNombreUsuario;
+	}
+
+	public JTextField getTextFieldContraseña() {
+		return textFieldContraseña;
+	}
+
+	public JTextField getTextFieldRepetirContraseña() {
+		return textFieldRepetirContraseña;
+	}
+
+	public JTextField getTextFieldCorreo() {
+		return textFieldCorreo;
+	}
+
+	public JButton getRegistrar() {
+		return registrar;
+	}
+
+	public JComboBox getAmbitoEmpresa() {
+		return ambitoEmpresa;
 	}
 	
 }
