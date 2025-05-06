@@ -4,17 +4,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-
 import models.AuthModel;
+import models.HomeModel;
 import views.AuthView;
+import views.HomeView;
+import controlers.HomeController;
 
 public class AuthController {
 	
+	HomeView homeView = new HomeView();
+	HomeModel homeModel = new HomeModel();
+	HomeController homeController = new HomeController(homeView, homeModel);
+	
 	public AuthController (AuthView view, AuthModel model) {
+		
+		view.getBoton_home().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.dispose();
+				homeView.getFrame().setVisible(true);
+			}
+		});
 		
 		//Añadir acción al botón "Acceder" del login
 		view.getBoton().addActionListener(new ActionListener() {
@@ -45,22 +56,6 @@ public class AuthController {
 			}
 		});
 		
-		//Acción boton registro: imprimir información en consola
-		/*
-		view.getBotonFinRegistro().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String user = view.getNombre().getText();
-				String bio = view.getBio().getText();
-				JCheckBox prefSalado = view.getSalado();
-				JCheckBox prefDulce = view.getDulce();
-				JCheckBox prefSaludable = view.getSaludable();
-				String colonia = view.getComboBoxColonias().getSelectedItem().toString();
-				model.register(user, bio, prefSalado, prefDulce, prefSaludable, colonia);
-			}
-		});
-		*/
-		
 		// Botón registro: mandar información de los campos y verificar en el modelo para guardar en UsuariosRegistro.txt
 		view.getRegistrar().addActionListener(new ActionListener() {
 			
@@ -88,6 +83,6 @@ public class AuthController {
 		});
 		
 	}
-		
+	
 	
 }

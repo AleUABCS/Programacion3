@@ -21,6 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AuthView extends JFrame {
 	
@@ -38,6 +40,8 @@ public class AuthView extends JFrame {
 	private JCheckBox salado = new JCheckBox("Salado");
 	private JCheckBox dulce = new JCheckBox("Dulce");
 	private JCheckBox saludable = new JCheckBox("Saludable");
+	private JButton boton_home= new JButton("Inicio");
+
 	
 	JTextField textFieldNombres;
 	JTextField textFieldApellidos;
@@ -58,7 +62,7 @@ public class AuthView extends JFrame {
 	public JFrame login() {
 
 		setTitle("Iniciar Sesión");
-		setLayout(null);
+		getContentPane().setLayout(null);
 		setVisible(true);
 		setSize(1000, 630);
 		setLocationRelativeTo(null);
@@ -70,7 +74,7 @@ public class AuthView extends JFrame {
 		panel.setBackground(Color.decode("#ffd845"));
 		panel.setBounds(492, 15, 450, 530);
 		panel.setLayout(null);
-		add(panel);
+		getContentPane().add(panel);
 
 		// Etiqueta "Iniciar Sesión"
 		JLabel etiqueta = new JLabel();
@@ -101,6 +105,10 @@ public class AuthView extends JFrame {
 
 		// Botón acceder
 		boton = new JButton();
+		boton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		boton.setForeground(Color.BLACK);
 		boton.setText("Acceder");
 		boton.setFont(new Font("Calibri", Font.PLAIN, 28));
@@ -139,7 +147,7 @@ public class AuthView extends JFrame {
 		JPanel panelImagen = new JPanel();
 		panelImagen.setLayout(null);
 		panelImagen.setBounds(42, 15, 450, 530);
-		add(panelImagen);
+		getContentPane().add(panelImagen);
 
 		// Crear imagen
 		ImageIcon imagen = new ImageIcon("GumLogin.jpeg");
@@ -253,9 +261,15 @@ public class AuthView extends JFrame {
 
 		ImageIcon iconoVentana = new ImageIcon("IconoVentana.png");
 		setIconImage(iconoVentana.getImage());
+		botonRegistro.setBackground(new Color(224, 224, 224));
 
 		panel.add(botonRegistro);
 		botonRegistro.setBounds(305, 440, 120, 30);
+		
+		boton_home.setBackground(new Color(224, 224, 224));
+		boton_home.setBounds(25, 441, 120, 30);
+		panel.add(boton_home);
+		boton_home.repaint();
 
 		return this;
 	}
@@ -264,7 +278,7 @@ public class AuthView extends JFrame {
 
 		setTitle("Registrarse");
 		setVisible(true);
-		setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		setSize(500, 500);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -272,7 +286,7 @@ public class AuthView extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EmptyBorder(10, 30, 30, 30));
-		add(panel, BorderLayout.CENTER);
+		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(9, 2, 0, 5));
 		
 		JLabel labelNombres = new JLabel("Nombres");
@@ -355,7 +369,7 @@ public class AuthView extends JFrame {
 		
 		panelBoton.add(new JLabel());
 		
-		add(panelBoton, BorderLayout.SOUTH);
+		getContentPane().add(panelBoton, BorderLayout.SOUTH);
 		
 		repaint();
 		revalidate();
@@ -366,7 +380,7 @@ public class AuthView extends JFrame {
 	public JFrame recuperar() {
 
 		setTitle("Registrarse");
-		setLayout(null);
+		getContentPane().setLayout(null);
 		setVisible(true);
 		setSize(500, 650);
 		setLocationRelativeTo(null);
@@ -376,7 +390,7 @@ public class AuthView extends JFrame {
 		JLabel tituloRecuperar = new JLabel("Recuperar cuenta");
 		tituloRecuperar.setFont(new Font("", Font.PLAIN, 34));
 		tituloRecuperar.setBounds(100, 50, 300, 50);
-		add(tituloRecuperar);
+		getContentPane().add(tituloRecuperar);
 
 		repaint();
 
@@ -385,7 +399,7 @@ public class AuthView extends JFrame {
 
 	public JFrame alta() {
 		setTitle("Registrarse");
-		setLayout(null);
+		getContentPane().setLayout(null);
 		setVisible(true);
 		setSize(500, 650);
 		setLocationRelativeTo(null);
@@ -395,7 +409,7 @@ public class AuthView extends JFrame {
 		JLabel titulo = new JLabel("Alta");
 		titulo.setFont(new Font("", Font.BOLD, 30));
 		titulo.setSize(200, 50);
-		add(titulo);
+		getContentPane().add(titulo);
 
 		repaint();
 		return this;
@@ -446,11 +460,11 @@ public class AuthView extends JFrame {
 		frameInicioSesion.setTitle("Información");
 		frameInicioSesion.setSize(400, 300);
 		frameInicioSesion.setLocationRelativeTo(null);
-		frameInicioSesion.setLayout(null);
+		frameInicioSesion.getContentPane().setLayout(null);
 		frameInicioSesion.getContentPane().setBackground(Color.decode("#a4d6fe"));
 		JLabel mensaje = new JLabel("Inicio de sesión exitoso");
 		mensaje.setFont(new Font("Calibri", Font.PLAIN, 34));
-		frameInicioSesion.add(mensaje);
+		frameInicioSesion.getContentPane().add(mensaje);
 		mensaje.setBounds(30, 100, 340, 50);
 		frameInicioSesion.setVisible(true);
 		mensajeError.setVisible(false);
@@ -557,6 +571,10 @@ public class AuthView extends JFrame {
 
 	public JComboBox getAmbitoEmpresa() {
 		return ambitoEmpresa;
+	}
+
+	public JButton getBoton_home() {
+		return boton_home;
 	}
 	
 }

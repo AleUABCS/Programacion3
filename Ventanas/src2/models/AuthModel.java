@@ -24,8 +24,7 @@ public class AuthModel {
 		boolean success = false;
 		
 		try {
-// 			String url = AuthModel.class.getResource("/files/UsuariosRegistro.txt").getPath();
-			file = new FileWriter("UsuariosRegistro2.txt", true);
+			file = new FileWriter("src2/files/UsuariosRegistro.txt", true);
 			writer = new PrintWriter(file);
 			
 			if (nombres.matches("[a-zA-Z ]+")) { // Nombres, solo letras y espacios
@@ -34,12 +33,12 @@ public class AuthModel {
 						if (cargo.matches("[a-zA-Z ]+")) { // Cargo, solo letras y espacios
 							if (nombreUsuario.matches("^[a-zA-Z0-9 ]+$")) { // Nombre de usuario, letras, números y espacios
 								if (contraseña.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).*$")) { // Contraseña, tiene una letra, un número y un caracter
-									if (repetirContraseña.equals(repetirContraseña)) { // Repetir contraseña, es igual que la contraseña
+									if (repetirContraseña.equals(contraseña)) { // Repetir contraseña, es igual que la contraseña
 										if (!correo.matches(".*\\s+.*")) { // Correo, no tiene espacios en blanco
 											
 											writer.println(nombres + "/" + apellidos + "/" +  empresa + "/" +  
 													ambito + "/" +  cargo + "/" +  nombreUsuario + "/" +  contraseña + "/" + 
-													repetirContraseña + "/" +  correo + "\n");
+													repetirContraseña + "/" +  correo);
 											success = true;
 											JOptionPane.showMessageDialog(null, "Registro exitoso");
 										}
