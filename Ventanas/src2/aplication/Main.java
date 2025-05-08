@@ -15,10 +15,6 @@ public class Main {
 		AuthModel model = new AuthModel();
 		AuthController authController = new AuthController(view, model);
 		
-		HomeView homeView = new HomeView();
-		HomeModel homeModel = new HomeModel();
-		HomeController homeControler = new HomeController(homeView, homeModel);
-		
 	}
 
 }

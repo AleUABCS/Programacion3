@@ -1,0 +1,62 @@
+[
+  {
+    "ID": 1,
+    "Nombre": "Manzana",
+    "Precio": 0.50,
+    "Stock": 120
+  },
+  {
+    "ID": 2,
+    "Nombre": "Banana",
+    "Precio": 0.30,
+    "Stock": 150
+  },
+  {
+    "ID": 3,
+    "Nombre": "Naranja",
+    "Precio": 0.60,
+    "Stock": 100
+  },
+  {
+    "ID": 4,
+    "Nombre": "Pera",
+    "Precio": 0.55,
+    "Stock": 90
+  },
+  {
+    "ID": 5,
+    "Nombre": "Sandía",
+    "Precio": 1.20,
+    "Stock": 40
+  },
+  {
+    "ID": 6,
+    "Nombre": "Melón",
+    "Precio": 1.00,
+    "Stock": 50
+  },
+  {
+    "ID": 7,
+    "Nombre": "Kiwi",
+    "Precio": 0.80,
+    "Stock": 70
+  },
+  {
+    "ID": 8,
+    "Nombre": "Uva",
+    "Precio": 0.90,
+    "Stock": 200
+  },
+  {
+    "ID": 9,
+    "Nombre": "Fresa",
+    "Precio": 0.75,
+    "Stock": 130
+  },
+  {
+    "ID": 10,
+    "Nombre": "Mango",
+    "Precio": 1.50,
+    "Stock": 60
+  }
+]

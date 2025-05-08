@@ -105,10 +105,7 @@ public class AuthView extends JFrame {
 
 		// Botón acceder
 		boton = new JButton();
-		boton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		
 		boton.setForeground(Color.BLACK);
 		boton.setText("Acceder");
 		boton.setFont(new Font("Calibri", Font.PLAIN, 28));

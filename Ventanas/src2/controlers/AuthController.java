@@ -3,18 +3,13 @@ package controlers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
 import models.AuthModel;
-import models.HomeModel;
 import views.AuthView;
 import views.HomeView;
-import controlers.HomeController;
+import views.ProductView;
 
 public class AuthController {
 	
-	HomeView homeView = new HomeView();
-	HomeModel homeModel = new HomeModel();
-	HomeController homeController = new HomeController(homeView, homeModel);
 	
 	public AuthController (AuthView view, AuthModel model) {
 		
@@ -23,7 +18,7 @@ public class AuthController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				view.dispose();
-				homeView.getFrame().setVisible(true);
+				HomeView homeView = new HomeView();
 			}
 		});
 		
@@ -37,7 +32,10 @@ public class AuthController {
 				if (model.accesUser(email, password)) {
 					view.setEmailGreen();
 					view.setPasswordGreen();
-					view.showAccessSuccess();
+					
+					view.dispose();
+					ProductView productView = new ProductView();
+					
 				} else {
 					view.setEmailRed();
 					view.setPasswordRed();

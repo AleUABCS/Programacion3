@@ -18,6 +18,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import controlers.HomeController;
 import models.HomeModel;
 
 import java.awt.GridLayout;
@@ -34,27 +35,31 @@ public class HomeView {
 	private JButton boton_usuarios = new JButton("Usuarios");
 	private JButton boton_registros = new JButton("Registros");
 	private JButton boton_configuracion = new JButton("Configuración");
+	
+	HomeController homeController;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HomeView window = new HomeView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					HomeView window = new HomeView();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
 	 */
 	public HomeView() {
+		HomeModel homeModel = new HomeModel();
+		homeController = new HomeController(HomeView.this, homeModel);
 		initialize();
 	}
 
@@ -64,6 +69,7 @@ public class HomeView {
 	private void initialize() {
 		frame.setBounds(100, 100, 650, 420);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
