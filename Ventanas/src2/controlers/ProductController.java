@@ -21,8 +21,36 @@ public class ProductController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				view.getModel().setRowCount(0);
-				fillTable();
+				resetTable();
+			}
+		});
+		
+		view.getButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String name = view.getTextfield_nombre().getText();
+					long id = Long.parseLong(view.getTextfield_id().getText());
+					long price = Long.parseLong(view.getTextfield_precio().getText());
+					double stock = Double.parseDouble(view.getTextfield_stock().getText());
+					model.addProduct(name, id, price, stock);
+					resetTable();
+					view.showProductAddSuccess();
+					
+				} catch (Exception e1) {
+					view.showProductAddFail();
+				}
+				
+				
+			}
+		});
+		
+		view.getButton_add().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.showFrameAdd();
 			}
 		});
 	}
@@ -39,5 +67,12 @@ public class ProductController {
 			System.out.println(obj1);
 			view.getModel().addRow(new Object[] {obj1, obj2, obj3, obj4});
 		}
+		
 	}
+	
+	public void resetTable () {
+		view.getModel().setRowCount(0);
+		fillTable();
+	}
+	
 }

@@ -2,6 +2,7 @@ package models;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,18 +22,16 @@ public class ProductModel {
 	{
 		
 		JSONParser jsonParser = new JSONParser();
-		String url = AuthModel.class.getResource("/files/productos.json").getPath();
-        
+		String url = "src2/files/productos.json";
+
         try (FileReader reader = new FileReader(url))
         {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
-  
             JSONArray productList = (JSONArray) obj;
               
             return productList;
            
-            
             //Iterate over  array
            // productList.forEach( emp -> parseTestData( (JSONObject) emp ) );
   
@@ -72,6 +71,28 @@ public class ProductModel {
 		JSONObject productoSeleccionado = (JSONObject)get().get(index);
 		ArrayList<Object> array = toObjectArrayList(productoSeleccionado);
 		return array;
+	}
+	
+	public void addProduct(String name, long id, long stock, double price) {
+		JSONObject newProduct = new JSONObject();
+		newProduct.put("Nombre", name);
+		newProduct.put("ID", id);
+		newProduct.put("Stock", stock);
+		newProduct.put("Precio", price);
+		
+		JSONArray productList = get();
+		productList.add(newProduct);
+		String url = "src2/files/productos.json";
+
+		try (FileWriter write = new FileWriter(url)) {
+			String newProductString = ""+productList;
+			write.write(newProductString);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 
