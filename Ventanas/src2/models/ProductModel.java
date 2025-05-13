@@ -14,6 +14,8 @@ import org.json.simple.parser.ParseException;
 
 public class ProductModel {
 
+	String url = "src2/files/productos.json";
+
 	public ProductModel () {
 		
 	}
@@ -22,7 +24,6 @@ public class ProductModel {
 	{
 		
 		JSONParser jsonParser = new JSONParser();
-		String url = "src2/files/productos.json";
 
         try (FileReader reader = new FileReader(url))
         {
@@ -92,6 +93,21 @@ public class ProductModel {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void deleteProductId (int index) {
+		System.out.println("id: " + index);
+		JSONArray productList = get();
+		
+		productList.remove(index);
+		
+		try (FileWriter write = new FileWriter(url)) {
+			String newProductString = ""+productList;
+			write.write(newProductString);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

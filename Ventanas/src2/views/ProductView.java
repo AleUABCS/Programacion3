@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
+import java.awt.Checkbox;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -20,16 +22,19 @@ import models.ProductModel;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.Color;
+import javax.swing.ListSelectionModel;
 
 public class ProductView {
 
 	private JFrame frame = new JFrame();
-	private DefaultTableModel model =  new DefaultTableModel();
-	private JTable table = new JTable(model);
+	private JTable table = new JTable();
 	private JScrollPane scrollPanel = new JScrollPane(table);
 	private JButton boton_ActualizarTabla = new JButton("Actualizar");
 	private JButton button_add = new JButton("+ Añadir producto");
+	private JButton button_delete = new JButton(" - Eliminar");
 
 	JTextField textfield_nombre = new JTextField();
 	JTextField textfield_id = new JTextField();
@@ -37,9 +42,12 @@ public class ProductView {
 	JTextField textfield_stock = new JTextField();
 	JButton button = new JButton("Aceptar");
 	JFrame frame2 = new JFrame();
-
+	
+	DefaultTableModel tableModel = new DefaultTableModel();
 
 	ProductController controller;
+	ProductModel model;
+
 
 	/**
 	 * Launch the application.
@@ -62,7 +70,8 @@ public class ProductView {
 	 */
 	public ProductView() {
 		initialize();
-		ProductModel model = new ProductModel();
+		showTable();
+		model = new ProductModel();
 		controller = new ProductController(ProductView.this, model);
 	}
 
@@ -70,6 +79,7 @@ public class ProductView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		frame.setTitle("Productos");
 		frame.setSize(650, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,8 +91,6 @@ public class ProductView {
 		
 		JPanel panel = new JPanel();
 		panelGeneral.add(panel, BorderLayout.CENTER);
-		
-		model.setColumnIdentifiers(new String[] {"ID", "Nombre", "Precio", "Stock"});
 		
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(scrollPanel, BorderLayout.CENTER);
@@ -110,8 +118,8 @@ public class ProductView {
 		panel.setBorder(new EmptyBorder(20,20,20,20));
 		
 		frame2.setSize(400,250);
-		frame2.setLayout(new BorderLayout());
-		frame2.add(panel, BorderLayout.CENTER);
+		frame2.getContentPane().setLayout(new BorderLayout());
+		frame2.getContentPane().add(panel, BorderLayout.CENTER);
 		
 		panel.setLayout(new GridLayout(5,2, 10, 10));
 		JLabel label_nombre = new JLabel("Nombre");
@@ -137,7 +145,13 @@ public class ProductView {
 		frame2.setVisible(true);
 		panel.revalidate();
 		panel.repaint();
-		}
+	}
+	
+	public void showTable () {
+		
+		tableModel.setColumnIdentifiers(new Object[] {"ID", "Nombre", "Precio", "Stock", "Eliminar"});
+		table.setModel(tableModel);
+	}
 	
 	public void repaintTable () {
 		table.revalidate();
@@ -152,8 +166,8 @@ public class ProductView {
 		JOptionPane.showMessageDialog(null, "Datos inválidos");
 	}
 	
-	public DefaultTableModel getModel() {
-		return model;
+	public DefaultTableModel getTableModel() {
+		return tableModel;
 	}
 
 	public JButton getBoton_ActualizarTabla() {
@@ -182,6 +196,10 @@ public class ProductView {
 
 	public JButton getButton() {
 		return button;
+	}
+
+	public JTable getTable() {
+		return table;
 	}
 	
 }

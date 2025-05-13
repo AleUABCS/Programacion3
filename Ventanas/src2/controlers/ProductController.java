@@ -3,9 +3,27 @@ package controlers;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.EventObject;
+import java.awt.Button;
+import java.awt.Checkbox;
+import java.awt.Component;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
+import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 
 import models.ProductModel;
+import views.ButtonEditor;
 import views.ProductView;
+import views.TableRender;
+
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.DefaultCellEditor;
+import javax.swing.table.TableCellRenderer;
+
 
 public class ProductController {
 	
@@ -35,6 +53,7 @@ public class ProductController {
 					long price = Long.parseLong(view.getTextfield_precio().getText());
 					double stock = Double.parseDouble(view.getTextfield_stock().getText());
 					model.addProduct(name, id, price, stock);
+//					resetTable();
 					resetTable();
 					view.showProductAddSuccess();
 					
@@ -63,16 +82,31 @@ public class ProductController {
 			Object obj2 = array.get(1);
 			Object obj3 = array.get(3);
 			Object obj4 = array.get(2);
+			JButton button_delete = new JButton("Eliminar");
 			
 			System.out.println(obj1);
-			view.getModel().addRow(new Object[] {obj1, obj2, obj3, obj4});
+			view.getTableModel().addRow(new Object[] {obj1, obj2, obj3, obj4, button_delete});
 		}
+		view.getTable().getColumn("Eliminar").setCellRenderer(new TableRender());
+		ButtonEditor buttonEditor = new ButtonEditor(new JCheckBox());
+		buttonEditor.getButton().addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = view.getTable().getSelectedRow();
+				buttonEditor.fireEditingStopped();
+				model.deleteProductId(row);
+				resetTable();
+			}
+		});
+		view.getTable().getColumn("Eliminar").setCellEditor(buttonEditor);
 		
 	}
 	
 	public void resetTable () {
-		view.getModel().setRowCount(0);
+		view.getTableModel().setRowCount(0);
 		fillTable();
 	}
-	
+
+
 }
