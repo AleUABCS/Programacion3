@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="src2"/>
 	<classpathentry exported="true" kind="lib" path="/Programacion3/Ventanas/src2/libraries/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="src2/libraries/mysql-connector-j-9.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -7,6 +7,7 @@ import models.AuthModel;
 import views.AuthView;
 import views.HomeView;
 import views.ProductView;
+import views.UserView;
 
 public class AuthController {
 	
@@ -33,8 +34,9 @@ public class AuthController {
 					view.setEmailGreen();
 					view.setPasswordGreen();
 					
-					view.dispose();
-					ProductView productView = new ProductView();
+					view.setVisible(false);
+//					ProductView productView = new ProductView();
+					UserView userView = new UserView(view);
 					
 				} else {
 					view.setEmailRed();
